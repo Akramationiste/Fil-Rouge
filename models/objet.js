@@ -17,7 +17,15 @@ const ObjetSchema = new mongoose.Schema({
         type: mongoose.SchemaTypes.ObjectId,
         ref: "categorie",
         required : true
+    },
+    image: {
+        type: String,
+        required: true
     },    
+    // image: {
+    //     data: Buffer,
+    //     contentType: String
+    // },    
     etat: {
         type: String,
         required: true
@@ -29,6 +37,10 @@ const ObjetSchema = new mongoose.Schema({
     prix:{
       type:Number,
       default:0
+    },
+    isValid: {
+        type: Boolean,
+        default: false
     },
     description: {
         type: String,

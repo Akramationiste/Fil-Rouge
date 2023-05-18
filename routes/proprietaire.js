@@ -2,53 +2,25 @@ const express = require("express");
 const router = express.Router();
 const control1 = require('../controllers/objet');
 const control2 = require('../controllers/categorie');
-const control3 = require('../controllers/utilisateur');
-const control6 = require('../controllers/location');
-// const {protectEmploye} = require('../middlewhares/protectEmploye')
-const auth = require('../middlewares/authm')
-
-
-
-
-// Afficher tous les utilisateurs
-router.get('/utilisateurs', auth, (req, res) => {
-    if (req.role !== 'proprietaire') {
-      return res.status(403).json({ message: 'Access denied' });
-    }
-    control3.afficherTousUtilisateurs(req, res);
-  });
-  
-  // Afficher un utilisateur
-  router.get('/utilisateurs/:id', auth, (req, res) => {
-    if (req.role !== 'proprietaire') {
-      return res.status(403).json({ message: 'Access denied' });
-    }
-    control3.afficherUtilisateur(req, res);
-  });
-  
-  // Modifier un utilisateur
-  router.patch('/utilisateurs/:id', auth, (req, res) => {
-    if (req.role !== 'proprietaire') {
-      return res.status(403).json({ message: 'Access denied' });
-    }
-    control3.modifierUtilisateur(req, res);
-  });
-  
-  // Supprimer un utilisateur
-  router.delete('/utilisateurs/:id', auth, (req, res) => {
-    if (req.role !== 'proprietaire') {
-      return res.status(403).json({ message: 'Access denied' });
-    }
-    control3.supprimerUtilisateur(req, res);
-  });
-
+ const control6 = require('../controllers/location');
+const authorization = require('../middlewares/authm');
+const multer = require ('multer');
 
 
 
 ////////////////////////////////////////////////////////////////////////////
 
 
-
+const upload = multer({
+    storage: multer.diskStorage({
+        destination: function(req,file,callback) {
+            callback(null, path.join(__dirname, "../images_objets") )
+        },
+        filename: function (req, file, callback) {
+            callback(null, `${Date.now().toString()}.jpeg`)
+        }
+    })
+  })
 
 //afficher tous les objets
 router.get('/objets', control1.afficherTousObjets);
@@ -59,7 +31,7 @@ router.get('/objets/:id', control1.afficherObjet);
 
 
 //ajouter un objet
-router.post('/objets', control1.ajouterObjet);
+router.post('/objets', upload.array, control1.ajouterObjet);
 
 
 //supprimer un objet
@@ -82,15 +54,15 @@ router.get('/categories/:id', control2.afficherCategorie);
 
 
 //ajouter une catégorie
-router.post('/categories', control2.ajouterCategorie);
+router.post('/categories', [authorization.VerifyToken , authorization.isProprietaire], control2.ajouterCategorie);
 
 
 //supprimer une catégorie
-router.delete('/categories/:id', control2.supprimerCategorie);
+router.delete('/categories/:id', [authorization.VerifyToken , authorization.isProprietaire], control2.supprimerCategorie);
 
 
 //modifier une catégorie
-router.patch('/categories/:id', control2.modifierCategorie);
+router.patch('/categories/:id', [authorization.VerifyToken , authorization.isProprietaire], control2.modifierCategorie);
 
 
 
@@ -100,10 +72,10 @@ router.patch('/categories/:id', control2.modifierCategorie);
 
 
 //ajouter une location
-router.post('/locations', control6.ajouterLocation);
+router.post('/locations', [authorization.VerifyToken , authorization.isProprietaire], control6.ajouterLocation);
 
 //renouvler une location
-router.post('/renouveler_locations/:id', control6.renouvelerLocation);
+router.post('/renouveler_locations/:id', [authorization.VerifyToken , authorization.isProprietaire], control6.renouvelerLocation);
 
 
 

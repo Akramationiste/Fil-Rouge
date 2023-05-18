@@ -1,32 +1,55 @@
-
-const nodemailer = require ('nodemailer');
+const nodemailer = require('nodemailer');
 const utilisateur = require('../models/utilisateur');
 
-////////////////////   SEND MAIL    ///////////////////////////////////////////
+//loads environment variables from a .env file
+require('dotenv').config();
 
 
-exports.sendEmail = (utilisateur) => {
-    return new Promise((resolve, reject) => {
-        var transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-        
-              user: 'muchamucha92@gmail.com',
-              pass: 'cheevxaljturbdbq'
-            }
-        })         
-           const mail_configs = {
-            from: 'muchamucha92@gmail.com',
-            to: utilisateur.email,
-            subject: 'enregistrement avec succès !',
-            text: 'Merci à vous.'
-          }
-          transporter.sendMail(mail_configs , function(error, info){
-            if(error){
-                console.log(error)
-                reject({message:"erreur trouvé !!"})
-            }
-            return resolve ({message:"email envoyé avec succès"})
-          })
-    })
+//importer the nodemailer library to send emails
+const transporter = nodemailer.createTransport({
+    service:'gmail',
+    auth: {
+        user: process.env.user,
+        pass: process.env.pass
+    }
+  });
+
+
+//function to send an email
+
+function sendEmail(from , to ,subject , text){
+     
+    const message = {
+        from: `${from}`,
+        to: `${to}`,
+        subject: `${subject}`,
+        text: `${text}`
+    };
+  
+    transporter.sendMail(message, function(err, info) {
+        if (err) {
+          console.log(err);
+          res.status(500).send({ error: 'Error sending email' });
+        } else {
+          console.log('Email envoyé: ' + info.response);
+          res.status(200).json("email envoyé !");
+        }
+    });
+
+
+  }
+
+
+async function sendEmailToMultipleUsers(from , to ,subject , text){
+
+  to.forEach(utilisateur => {
+
+      sendEmail(from , utilisateur.email , subject , text)
+    
+  });
+
 }
+module.exports={
+    sendEmail,
+    sendEmailToMultipleUsers
+}  

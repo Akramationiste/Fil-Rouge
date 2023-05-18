@@ -1,6 +1,6 @@
 const Objet = require('../models/objet');
 const Categorie = require('../models/categorie');
-
+const multer = require ('multer');
 
 
 
@@ -8,7 +8,7 @@ const Categorie = require('../models/categorie');
 
 
 async function ajouterObjet(req, res) {
-  const { nom_objet, cat_id, proprietaire_id, etat, prix, note, description, objet_loue } = req.body;
+  const { nom_objet, cat_id, proprietaire_id, etat, prix, note, description, image, objet_loue } = req.body;
 
   try {
     const objet = new Objet({
@@ -19,6 +19,7 @@ async function ajouterObjet(req, res) {
       prix,
       note,
       description,
+      image,
       objet_loue
     });
 

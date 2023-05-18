@@ -1,28 +1,74 @@
 
 const jwt = require('jsonwebtoken');
+const utilisateur = require('../models/utilisateur');
 
-const auth = (req, res, next) => {
-  const authHeader = req.header('Authorization');
-  if (!authHeader) {
-    return res.status(401).json({ message: 'Access denied' });
-  }
+async function VerifyToken(req, res, next){
+  const {authorization} = req.headers;
+  
 
-  const [scheme, token] = authHeader.split(' ');
-  if (scheme !== 'Bearer' || !token) {
-    return res.status(401).json({ message: 'Invalid token' });
+  if (!authorization) {
+    return res.status(401).json({ message: 'Authorisation token requis' });
   }
+   
+  const token = authorization.split(' ')[1]
+
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded.userId;
-    req.role = decoded.role;
+    const {_id} = jwt.verify(token, process.env.SECRET);
+    req.utilisateur = await utilisateur.findOne({_id}).select('_id')
     next();
-  } catch (err) {
-    res.status(400).json({ message: 'Invalid token' });
+  } catch (error) {
+    console.log(error)
+    res.status(400).json({ error: 'Invalid token' });
   }
 };
 
-module.exports = auth;
+
+
+
+async function isAdmin(req, res, next) {
+	
+	if (!req.utilisateur) {
+		return res.status(400).send({
+			message: "Connectez-vous d'abord",
+		});
+	}
+	const utilisateur = await User.findById(req.utilisateur._id);
+	if (utilisateur.role != "admin") {
+		return res.status(403).send({
+			message: 'non authorisé, vous devriez être admin !',
+		});
+	}
+	next();
+}
+
+
+async function isProprietaire(req, res, next) {
+	if (!req.user) {
+		return res.status(400).send({
+			message: "Connectez-vous d'abord",
+		});
+	}
+	const utilisateur = await utilisateur.findById(req.utilisateur._id);
+	if (utilisateur.role != "proprietaire") {
+		return res.status(403).send({
+			message: 'non authorisé, vous devriez être propriétaire !',
+		});
+	}
+	next();
+}
+
+module.exports = {
+    VerifyToken,
+    isAdmin,
+    isProprietaire
+}
+
+
+
+
+
+
 
 
 
