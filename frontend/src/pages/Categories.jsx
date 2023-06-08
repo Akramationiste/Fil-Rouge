@@ -1,14 +1,14 @@
 import React from 'react'
+import CardsCat from '../components/Categories/CardsCat'
 import Footer from '../components/Footer.jsx/Footer'
-import ContactUs from '../components/Contact/ContactUs'
 
-function Contact() {
+function Categories() {
   return (
     <div>
-        <ContactUs/>
+        <CardsCat/>
         <Footer/>
     </div>
   )
 }
 
-export default Contact
+export default Categories
