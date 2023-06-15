@@ -1,9 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-function Erreur404() {
+function NotFound() {
   return (
     <div>
-      <div className="flex flex-col h-screen bg-white">
+      <div className="flex flex-col mt-20 h-screen ">
         <img
           src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1548&q=80"
           alt=""
@@ -20,12 +21,12 @@ function Erreur404() {
               Try searching again, or return home to start from the beginning.
             </p>
 
-            <a
-              href="#"
-              className="inline-block px-5 py-3 mt-6 text-sm font-medium text-white bg-indigo-600 rounded hover:bg-indigo-700 focus:outline-none focus:ring"
+            <Link
+              to="/"
+              className="inline-block bg-principal px-5 py-3 text-sm font-medium rounded-3xl hover:bg-secondc text-white"
             >
               Go Back Home
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -33,4 +34,4 @@ function Erreur404() {
   );
 }
 
-export default Erreur404;
+export default NotFound;

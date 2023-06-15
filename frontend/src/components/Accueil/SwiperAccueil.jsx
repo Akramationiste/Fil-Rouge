@@ -1,33 +1,45 @@
-import React from 'react'
+import React, { useState } from "react";
+import Al from "../../assets/Accueil/Al.png";
 
 function SwiperAccueil() {
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  const nextSlide = () => {
+    setActiveSlide((prevSlide) => (prevSlide + 1) % 7);
+  };
+
+  const prevSlide = () => {
+    setActiveSlide((prevSlide) => (prevSlide - 1 + 7) % 7);
+  };
+
   return (
     <div>
-        <div className="carousel rounded-box">
-  <div className="carousel-item">
-    <img src="/images/stock/photo-1559703248-dcaaec9fab78.jpg" alt="Burger" />
-  </div> 
-  <div className="carousel-item">
-    <img src="/images/stock/photo-1565098772267-60af42b81ef2.jpg" alt="Burger" />
-  </div> 
-  <div className="carousel-item">
-    <img src="/images/stock/photo-1572635148818-ef6fd45eb394.jpg" alt="Burger" />
-  </div> 
-  <div className="carousel-item">
-    <img src="/images/stock/photo-1494253109108-2e30c049369b.jpg" alt="Burger" />
-  </div> 
-  <div className="carousel-item">
-    <img src="/images/stock/photo-1550258987-190a2d41a8ba.jpg" alt="Burger" />
-  </div> 
-  <div className="carousel-item">
-    <img src="/images/stock/photo-1559181567-c3190ca9959b.jpg" alt="Burger" />
-  </div> 
-  <div className="carousel-item">
-    <img src="/images/stock/photo-1601004890684-d8cbf643f5f2.jpg" alt="Burger" />
-  </div>
-</div>
+      <div className="carousel carousel-end rounded-3xl relative p-4 ml-4 mr-4">
+        <div
+          className="carousel-inner flex overflow-x-auto space-x-4 p-4"
+          style={{
+            transform: `translateX(-${activeSlide * (100 / 3)}%)`,
+            scrollSnapType: "x mandatory",
+            scrollBehavior: "smooth", // Ajout de la transition fluide
+          }}
+        >
+          {[...Array(7)].map((_, index) => (
+            <div
+              className="carousel-item w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 flex-shrink-0 cursor-pointer rounded-3xl overflow-hidden"
+              key={index}
+              onClick={() => console.log(`Clicked on slide ${index}`)}
+            >
+              <img
+                src={Al}
+                alt="Drink"
+                className="w-full h-full object-cover transition duration-300 transform hover:scale-150"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
-  )
+  );
 }
 
-export default SwiperAccueil
+export default SwiperAccueil;

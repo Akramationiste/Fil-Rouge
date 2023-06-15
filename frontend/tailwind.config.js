@@ -10,7 +10,10 @@ export default {
         principal: "#006C79",
         secondc: "#F6835F"
 
-      }
+      },
+      fontFamily: {
+        'aleo': ['Aleo', 'sans-serif'],
+      },
     },
   },
   plugins: [],

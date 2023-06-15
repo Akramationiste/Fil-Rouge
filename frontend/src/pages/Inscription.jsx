@@ -1,14 +1,14 @@
-import React from 'react'
-import InscriptionForm from '../components/Inscription/InscriptionForm'
-import Footer from '../components/Footer.jsx/Footer'
+import React from "react";
+import InscriptionForm from "../components/Inscription/InscriptionForm";
+import Footer from "../components/Footer/Footer";
 
 function Inscription() {
   return (
     <div>
-        <InscriptionForm/>
-        <Footer/>
+      <InscriptionForm />
+      <Footer />
     </div>
-  )
+  );
 }
 
-export default Inscription
+export default Inscription;

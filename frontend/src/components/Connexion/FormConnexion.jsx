@@ -1,12 +1,15 @@
 import React from "react";
+import { motion } from "framer-motion";
+import Login from "../../assets/Connexion/login.jpg";
+import { Link } from "react-router-dom";
 
 function FormConnexion() {
   return (
     <div>
-      <section className="relative flex flex-wrap lg:h-screen m-8 lg:items-center">
+      <section className="relative flex flex-wrap lg:h-screen m-8 lg:items-center rounded-3xl shadow-2xl p-4">
         <div className="w-full px-4 py-12 sm:px-6 sm:py-16 lg:w-1/2 lg:px-8 lg:py-24">
           <div className="mx-auto max-w-lg text-center">
-            <h1 className="text-2xl font-bold sm:text-3xl">
+            <h1 className="text-2xl font-bold font-aleo sm:text-3xl">
               Get started today!
             </h1>
 
@@ -26,7 +29,7 @@ function FormConnexion() {
                 <input
                   type="email"
                   className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
-                  placeholder="Enter email"
+                  placeholder="Entez votre email"
                 />
 
                 <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
@@ -50,14 +53,14 @@ function FormConnexion() {
 
             <div>
               <label htmlFor="password" className="sr-only">
-                Password
+                Mot de passe
               </label>
 
               <div className="relative">
                 <input
                   type="password"
                   className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
-                  placeholder="Enter password"
+                  placeholder="Entrez votre mot de passe"
                 />
 
                 <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
@@ -87,10 +90,10 @@ function FormConnexion() {
 
             <div className="flex items-center justify-between">
               <p className="text-sm text-gray-500">
-                No account?
-                <a className="underline" href="">
-                  Sign up
-                </a>
+                Vous n'avez pas un compte ? 
+                <Link className="underline" to="/Inscription">
+                  Inscrivez-vous
+                </Link>
               </p>
 
               <button
@@ -103,11 +106,15 @@ function FormConnexion() {
           </form>
         </div>
 
-        <div className="relative h-64 w-full sm:h-96 lg:h-full lg:w-1/2">
-          <img
+        <div className="relative h-64 w-full sm:h-96 lg:h-full rounded-3xl lg:w-1/2">
+          <motion.img
             alt="Welcome"
-            src="https://images.unsplash.com/photo-1630450202872-e0829c9d6172?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
-            className="absolute inset-0 h-full w-full object-cover"
+            src={Login}
+            className="absolute inset-0 h-full rounded-3xl w-full object-cover"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+            whileHover={{ scale: 1.1 }}
           />
         </div>
       </section>

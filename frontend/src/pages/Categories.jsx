@@ -1,14 +1,16 @@
-import React from 'react'
-import CardsCat from '../components/Categories/CardsCat'
-import Footer from '../components/Footer.jsx/Footer'
+import React from "react";
+import CardsCat from "../components/Categories/CardsCat";
+import Footer from "../components/Footer/Footer";
+import Lending from "../components/Categories/Landing";
 
 function Categories() {
   return (
     <div>
-        <CardsCat/>
-        <Footer/>
+      <Lending />
+      <CardsCat />
+      <Footer />
     </div>
-  )
+  );
 }
 
-export default Categories
+export default Categories;

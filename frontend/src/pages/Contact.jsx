@@ -1,14 +1,14 @@
-import React from 'react'
-import Footer from '../components/Footer.jsx/Footer'
-import ContactUs from '../components/Contact/ContactUs'
+import React from "react";
+import Footer from "../components/Footer/Footer";
+import ContactUs from "../components/Contact/ContactUs";
 
 function Contact() {
   return (
     <div>
-        <ContactUs/>
-        <Footer/>
+      <ContactUs />
+      <Footer />
     </div>
-  )
+  );
 }
 
-export default Contact
+export default Contact;

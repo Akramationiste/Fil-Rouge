@@ -13,7 +13,7 @@ function CardsCat() {
         />
 
         <div className="relative p-4 sm:p-6 lg:p-8">
-          <p className="text-sm font-medium uppercase tracking-widest text-pink-500">
+          <p className="text-sm font-medium uppercase tracking-widest text-secondc">
             Developer
           </p>
 
@@ -24,7 +24,7 @@ function CardsCat() {
               <p className="text-sm text-white">
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis
                 perferendis hic asperiores quibusdam quidem voluptates
-                doloremque reiciendis nostrum harum. Repudiazzzfndae?
+                doloremque reiciendis nostrum harum. Repudiandae?
               </p>
             </div>
           </div>

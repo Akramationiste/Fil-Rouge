@@ -26,7 +26,7 @@ function Stats() {
             Total Sales
           </dt>
 
-          <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">
+          <dd className="text-4xl font-extrabold text-principal md:text-5xl">
             $4.8m
           </dd>
         </div>
@@ -36,7 +36,7 @@ function Stats() {
             Official Addons
           </dt>
 
-          <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">24</dd>
+          <dd className="text-4xl font-extrabold text-principal md:text-5xl">24</dd>
         </div>
 
         <div className="flex flex-col px-4 py-8 text-center">
@@ -44,7 +44,7 @@ function Stats() {
             Total Addons
           </dt>
 
-          <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">86</dd>
+          <dd className="text-4xl font-extrabold text-principal md:text-5xl">86</dd>
         </div>
       </dl>
     </div>
