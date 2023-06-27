@@ -1,36 +1,52 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "./CardsCat.css";
 
 function CardsCat() {
   return (
-    <div className="px-4 py-16 mx-auto sm:max-w-xl  lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20 flex f">
-        <div className="gap-5 flex lg:flex-cols-3 sm:max-w-sm sm:mx-auto ">
-      <Link to="#" className="group relative block bg-black">
-        <img
-          alt="Developer"
-          src="https://images.unsplash.com/photo-1603871165848-0aa92c869fa1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=772&q=80"
-          className="absolute inset-0 h-full w-full object-cover opacity-75 transition-opacity group-hover:opacity-50"
-        />
+<div>
+{/*
+Heads up! 👋
 
-        <div className="relative p-4 sm:p-6 lg:p-8">
-          <p className="text-sm font-medium uppercase tracking-widest text-secondc">
-            Developer
-          </p>
+This component comes with some `rtl` classes. Please remove them if they are not needed in your project.
+*/}
 
-          <p className="text-xl font-bold text-white sm:text-2xl">Tony Wayne</p>
+<Link
+  to="#"
+ id="List" className="group flex flex-col justify-between rounded-sm bg-white p-4 m-10 shadow-xl transition-shadow hover:shadow-lg sm:p-6 lg:p-8"
+>
+  <div>
+    <h3 className="text-3xl font-bold text-principal sm:text-5xl">
+      Outils informatiques
+    </h3>
 
-          <div className="mt-32 sm:mt-48 lg:mt-64">
-            <div className="translate-y-8 transform opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100">
-              <p className="text-sm text-white">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis
-                perferendis hic asperiores quibusdam quidem voluptates
-                doloremque reiciendis nostrum harum. Repudiandae?
-              </p>
-            </div>
-          </div>
-        </div>
-      </Link>
-    </div></div>
+    <div className="mt-4 border-t-2 border-gray-100 pt-4">
+      <p className="text-sm font-medium uppercase text-gray-500">
+        Projecteurs - Imprimantes - Modems - Routeurs - Scanners - Disques durs extrnes
+      </p>
+    </div>
+  </div>
+
+  <div className="mt-8 inline-flex items-center gap-2 text-principal sm:mt-12 lg:mt-16">
+    <p className="font-medium sm:text-lg">How we did it</p>
+
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-6 w-6 transition-all group-hover:ms-3 rtl:rotate-180"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M17 8l4 4m0 0l-4 4m4-4H3"
+      />
+    </svg>
+  </div>
+</Link>
+</div>
   );
 }
 

@@ -1,10 +1,11 @@
-import { Link, Outlet } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Logo from './../../assets/Accueil/Logo1.png'
-import { useState, useEffect } from "react";
 import LoadingBar from "react-top-loading-bar";
 
 export default function Navbar() {
   const [progress, setProgress] = useState(0);
+  const [isMenuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,6 +19,10 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const toggleMenu = () => {
+    setMenuOpen(!isMenuOpen);
+  };
 
   return (
     <>
@@ -87,20 +92,20 @@ export default function Navbar() {
                 >
                   Se connecter
                 </Link>
-
-                <div className="hidden sm:flex">
-                  <Link
-                    className="rounded-3xl bg-gray-100 px-5 py-2.5 text-sm font-medium text-principal hover:bg-secondc"
-                    to="/Inscription"
-                  >
-                    S'inscrire
-                  </Link>
-                </div>
+                <Link
+                  className={`rounded-3xl bg-gray-100 px-5 py-2.5 text-sm font-medium text-principal hover:bg-secondc ${
+                    isMenuOpen ? " sm:flex" : "sm"
+                  }`}
+                  to="/Inscription"
+                >
+                  S'inscrire
+                </Link>
               </div>
 
               <div className="block md:hidden">
                 <button
                   className="rounded bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75"
+                  onClick={toggleMenu}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -123,9 +128,74 @@ export default function Navbar() {
         </div>
       </header>
 
-      <main className="">
-        <Outlet />
-      </main>
+      {isMenuOpen && (
+        <nav className="md:hidden mb-5 bg-white">
+          <ul className="flex flex-col items-center gap-6 text-sm">
+            <li>
+              <Link
+                className="text-black font-bold transition hover:text-secondc/75"
+                to="/SurNous"
+              >
+                Qui sommes-nous
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                className="text-black font-bold transition hover:text-secondc/75"
+                to="/Categories"
+              >
+                Catégories
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                className="text-black font-bold transition hover:text-secondc/75"
+                to="/Contact"
+              >
+                Contact
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                className="text-black font-bold transition hover:text-secondc/75"
+                to="/FAQs"
+              >
+                FAQs
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      )}
+
+      <div className="bg-white">
+        <div className="mx-auto max-w-screen-xl mb-5 px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-center">
+            {/* Barre de recherche */}
+            <div className="flex items-center">
+              <input
+                type="text"
+                className="rounded-l-3xl bg-gray-200 px-2 sm:text-sm text-base py-1 sm:px-4 sm:py-2 w-40 sm:w-64 focus:outline-none"
+                placeholder="Rechercher..."
+              />
+              <button className="rounded-r-3xl bg-principal  hover:bg-secondc sm:text-sm text-base font-medium text-white px-2 py-1 sm:px-4 sm:py-2">
+                Rechercher
+              </button>
+            </div>
+
+            <div className="ml-4">
+              <Link
+                className="text-black font-bold transition hover:text-secondc/75"
+                to="/Reservations"
+              >
+                Réservations
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

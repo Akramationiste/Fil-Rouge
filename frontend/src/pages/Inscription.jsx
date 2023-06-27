@@ -6,7 +6,6 @@ function Inscription() {
   return (
     <div>
       <InscriptionForm />
-      <Footer />
     </div>
   );
 }

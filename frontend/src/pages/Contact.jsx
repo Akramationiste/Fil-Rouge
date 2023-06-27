@@ -6,7 +6,6 @@ function Contact() {
   return (
     <div>
       <ContactUs />
-      <Footer />
     </div>
   );
 }

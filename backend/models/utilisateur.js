@@ -22,9 +22,6 @@ const UtilisateurSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    image: {
-        type: String
-    }, 
     adresse: {
       type: String,
       required: true
@@ -35,8 +32,9 @@ const UtilisateurSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ["admin", "proprietaire", "client"],
-        required: [true, "Spécifiez votre rôle svp"]
+        enum: ["admin", "user"],
+        default: "user",
+        // required: [true, "Spécifiez votre rôle svp"]
     },
     isActive: {
         type: Boolean,
@@ -50,25 +48,26 @@ const UtilisateurSchema = new mongoose.Schema({
 
 
 
-//Méthode de register statique
-
-UtilisateurSchema.statics.signup = async function(nom, age, mobile, adresse, email , password , role) {
-
-    //validtion
-
-    if (!nom || !age || !mobile || !adresse || !email || !password || !role){
-
-        throw Error('tous les champs sont requis !')
+   UtilisateurSchema.statics.signup = async function(nom, age, mobile, adresse, email, password, role) {
+    // Validation
+    if (!nom || !age || !mobile || !adresse || !email || !password) {
+        throw Error('Tous les champs sont requis !');
     }
 
-    if (!validator.isEmail(email)){
-
-        throw Error('email invalide')
+    if (!validator.isEmail(email)) {
+        throw Error('Email invalide');
     }
 
-    if (!validator.isStrongPassword(password))
-    {
-        throw Error('le mot de passe est faible !')
+    const strongPasswordOptions = {
+        minLength: 8,
+        minLowercase: 1,
+        minUppercase: 0,
+        minNumbers: 1,
+        minSymbols: 0,
+    };
+
+    if (!validator.isStrongPassword(password, strongPasswordOptions)) {
+        throw Error('Le mot de passe doit contenir 8 caractères minimum, une lettre et un chiffre  !');
     }
 
     const exists = await this.findOne({email})
@@ -81,7 +80,7 @@ UtilisateurSchema.statics.signup = async function(nom, age, mobile, adresse, ema
     const salt =await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(password , salt)
 
-    const Utilisateur = await this.create({nom, age, mobile, adresse, email , password : hash , role})
+    const Utilisateur = await this.create({nom, age, mobile, adresse, email , password : hash});
 
     return Utilisateur.toObject({ getters: true, versionKey: false, transform: function (doc, ret) {
         delete ret.password;

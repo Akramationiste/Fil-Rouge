@@ -21,11 +21,7 @@ const ObjetSchema = new mongoose.Schema({
     image: {
         type: String,
         required: true
-    },    
-    // image: {
-    //     data: Buffer,
-    //     contentType: String
-    // },    
+    },      
     etat: {
         type: String,
         required: true
@@ -46,7 +42,12 @@ const ObjetSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    objet_loue : Boolean
+    objet_loue : {
+        type: Boolean
+    },
+    objet_reserve : {
+        type : Boolean
+    }
 });
 
 

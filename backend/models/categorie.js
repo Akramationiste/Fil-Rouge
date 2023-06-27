@@ -8,7 +8,8 @@ const  CategorieSchema = new mongoose.Schema({
     nbr_objets: {
       type: Number,
       required: true,
-    }
+    },
+    
 });
 
 

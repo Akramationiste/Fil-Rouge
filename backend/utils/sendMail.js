@@ -28,11 +28,11 @@ function sendEmail(from , to ,subject , text){
   
     transporter.sendMail(message, function(err, info) {
         if (err) {
-          console.log(err);
-          res.status(500).send({ error: 'Error sending email' });
+          console.log("'Error sending email' ");
+          // res.status(500).send({ error: 'Error sending email' });
         } else {
           console.log('Email envoyé: ' + info.response);
-          res.status(200).json("email envoyé !");
+          // res.status(200).json("email envoyé !");
         }
     });
 

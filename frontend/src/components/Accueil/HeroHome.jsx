@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import HeroPic from "../../assets/Accueil/BG1.jpg";
+import HeroPic from "../../assets/Accueil/Bg-home.jpg";
 import { Link } from "react-router-dom";
 
 function HeroHome() {

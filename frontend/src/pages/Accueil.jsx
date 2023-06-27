@@ -7,6 +7,7 @@ import Produit from "../components/Accueil/Produit";
 import OnQuantity from "../components/Accueil/OnQuantity";
 import Separateur from "../components/Separateur";
 import MostObjets from "../components/Accueil/MostObjets";
+import Description from "../components/Accueil/Description";
 
 function Accueil() {
   return (
@@ -18,9 +19,10 @@ function Accueil() {
       <Separateur />
       <SwiperAccueil />
       <Separateur />
+      <Description/>
+      <Separateur />
       <PubAccueil />
       <Separateur />
-      <Footer />
     </div>
   );
 }

@@ -8,7 +8,6 @@ function Categories() {
     <div>
       <Lending />
       <CardsCat />
-      <Footer />
     </div>
   );
 }

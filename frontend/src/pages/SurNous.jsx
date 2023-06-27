@@ -8,7 +8,6 @@ function SurNous() {
     <div>
       <SurNouss />
       <Stats />
-      <Footer />
     </div>
   );
 }

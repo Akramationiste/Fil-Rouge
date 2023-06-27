@@ -5,7 +5,7 @@ function Separateur() {
     <div className="flex flex-col mt-11 mb-11 w-full">
       <div className="grid h-20 card bg-base-300 rounded-box place-items-center">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold lg:text-5xl text-center">
-          De nouvelles catégories sont ajoutées !
+          De nouvelles catégories sont maintenant dispos !
         </h1>
       </div>
       <div className="divider"></div>

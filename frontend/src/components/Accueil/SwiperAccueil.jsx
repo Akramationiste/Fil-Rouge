@@ -16,7 +16,7 @@ function SwiperAccueil() {
     <div>
       <div className="carousel carousel-end rounded-3xl relative p-4 ml-4 mr-4">
         <div
-          className="carousel-inner flex overflow-x-auto space-x-4 p-4"
+          className="carousel-inner flex overflow-x-auto space-x-4 p-4 scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-blue-100"
           style={{
             transform: `translateX(-${activeSlide * (100 / 3)}%)`,
             scrollSnapType: "x mandatory",
