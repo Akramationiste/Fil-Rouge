@@ -15,10 +15,14 @@ function Produit() {
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY + window.innerHeight;
-      if (scrollPosition > sectionTop.current) {
+      const isScrollingDown = scrollY.get() > scrollY.getPrevious();
+      if ((isScrollingDown && scrollPosition > sectionTop.current) || (!isScrollingDown && scrollPosition >= sectionTop.current)) {
         setIsVisible(true);
+      } else {
+        setIsVisible(false);
       }
     };
+    handleScroll(); // Déclencher la fonction lors du montage initial
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -91,13 +95,13 @@ function Produit() {
                 <motion.li
                   initial={{ opacity: 0, y: 20 }}
                   animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
+                  transition={{ duration: 0.6, delay: 0.5 }}
                 >
                   <a href="#" className="block group">
                     <motion.img
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-                      transition={{ duration: 0.6, delay: 0.6 }}
+                      transition={{ duration: 0.6, delay: 0.7 }}
                       src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1598&q=80"
                       alt=""
                       className="object-cover w-full rounded-3xl aspect-square"

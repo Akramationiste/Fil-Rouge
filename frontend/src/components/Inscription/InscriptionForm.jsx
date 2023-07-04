@@ -1,11 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
+// import axios from "axios";
+import axios from "../../api/axios.js";
 import { motion } from "framer-motion";
 import Register from "../../assets/Inscription/register.jpg";
+import { useNavigate } from "react-router-dom";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function InscriptionForm() {
+  const [formData, setFormData] = useState({
+    nom: "",
+    age: "",
+    mobile: "",
+    adresse: "",
+    email: "",
+    password: "",
+    passwordConfirmation: "",
+  });
+
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState("");
+  const notify = (msg) => toast.error(msg, {});
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("/auth/register", formData);
+      const { email, token } = response.data;
+      console.log("Inscription réussie !", email, token);
+      localStorage.token = token;
+      navigate("/");
+      // Effectuez ici les actions appropriées après une inscription réussie
+    } catch (error) {
+      console.error("Erreur lors de l'inscription :", error);
+      notify(error.response.data.error);
+    }
+  };
+
   return (
     <div>
       <section className="bg-white dark:bg-gray-900 m-10 shadow-2xl rounded-3xl">
+        <ToastContainer />
         <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
           <aside className="relative block h-16 lg:order-last lg:col-span-5 lg:h-full xl:col-span-6">
             <motion.img
@@ -40,16 +79,22 @@ function InscriptionForm() {
                 Eligendi nam dolorum aliquam, quibusdam aperiam voluptatum.
               </p>
 
-              <form action="#" className="mt-8 grid grid-cols-6 gap-6">
+              <form
+                onSubmit={handleSubmit}
+                className="mt-8 grid grid-cols-6 gap-6"
+              >
                 <div className="col-span-6 sm:col-span-3">
                   <label
-                    htmlFor="FirstName"
+                    htmlFor="nom"
                     className="block text-sm font-medium text-gray-700 dark:text-gray-200"
                   >
                     Nom complet
                   </label>
                   <input
                     type="text"
+                    name="nom"
+                    value={formData.nom}
+                    onChange={handleChange}
                     className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                     placeholder="Entrez votre nom"
                   />
@@ -57,13 +102,16 @@ function InscriptionForm() {
 
                 <div className="col-span-6 sm:col-span-3">
                   <label
-                    htmlFor="LastName"
+                    htmlFor="age"
                     className="block text-sm font-medium text-gray-700 dark:text-gray-200"
                   >
                     Age
                   </label>
                   <input
                     type="number"
+                    name="age"
+                    value={formData.age}
+                    onChange={handleChange}
                     className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                     placeholder="Entrez votre âge"
                   />
@@ -71,13 +119,16 @@ function InscriptionForm() {
 
                 <div className="col-span-6 sm:col-span-3">
                   <label
-                    htmlFor="Mobile"
+                    htmlFor="mobile"
                     className="block text-sm font-medium text-gray-700 dark:text-gray-200"
                   >
                     Mobile
                   </label>
                   <input
                     type="text"
+                    name="mobile"
+                    value={formData.mobile}
+                    onChange={handleChange}
                     className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                     placeholder="Entrez votre numéro de téléphone"
                   />
@@ -85,13 +136,16 @@ function InscriptionForm() {
 
                 <div className="col-span-6 sm:col-span-3">
                   <label
-                    htmlFor="Address"
+                    htmlFor="adresse"
                     className="block text-sm font-medium text-gray-700 dark:text-gray-200"
                   >
                     Adresse
                   </label>
                   <input
                     type="text"
+                    name="adresse"
+                    value={formData.adresse}
+                    onChange={handleChange}
                     className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                     placeholder="Entrez votre adresse"
                   />
@@ -99,13 +153,16 @@ function InscriptionForm() {
 
                 <div className="col-span-6">
                   <label
-                    htmlFor="Email"
+                    htmlFor="email"
                     className="block text-sm font-medium text-gray-700 dark:text-gray-200"
-                  >                
+                  >
                     Email
                   </label>
                   <input
                     type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                     placeholder="Entrez votre email"
                   />
@@ -113,13 +170,16 @@ function InscriptionForm() {
 
                 <div className="col-span-6 sm:col-span-3">
                   <label
-                    htmlFor="Password"
+                    htmlFor="password"
                     className="block text-sm font-medium text-gray-700 dark:text-gray-200"
                   >
                     Mot de passe
                   </label>
                   <input
                     type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
                     className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                     placeholder="Entrez votre mot de passe"
                   />
@@ -127,84 +187,28 @@ function InscriptionForm() {
 
                 <div className="col-span-6 sm:col-span-3">
                   <label
-                    htmlFor="PasswordConfirmation"
+                    htmlFor="passwordConfirmation"
                     className="block text-sm font-medium text-gray-700 dark:text-gray-200"
                   >
-                   Confirmation du mot de passe 
+                    Confirmation du mot de passe
                   </label>
                   <input
-                    type="passwordConfirmation"
+                    type="password"
+                    name="passwordConfirmation"
+                    value={formData.passwordConfirmation}
+                    onChange={handleChange}
                     className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
-                    placeholder="Entrez votre mot de passe"
+                    placeholder="Confirmez votre mot de passe"
                   />
                 </div>
 
                 <div className="col-span-6">
-                  <label
-                    htmlFor="Image"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-200"
+                  <button
+                    type="submit"
+                    className="rounded-3xl bg-principal px-5 py-2.5 text-sm font-medium text-white shadow hover:bg-secondc"
                   >
-                    Image
-                  </label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
-                    placeholder="Importez une image"
-                  />
-                </div>
-
-                <div className="col-span-6">
-                  <label htmlFor="MarketingAccept" className="flex gap-4">
-                    <input
-                      type="checkbox"
-                      id="MarketingAccept"
-                      name="marketing_accept"
-                      className="h-5 w-5 rounded-md border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:focus:ring-offset-gray-900"
-                    />
-
-                    <span className="text-sm text-gray-700 dark:text-gray-200">
-                      I want to receive emails about events, product updates and
-                      company announcements.
-                    </span>
-                  </label>
-                </div>
-
-                <div className="col-span-6">
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    En créant un compte, vous acceptez nos
-                    <a
-                      href="#"
-                      className="text-gray-700 underline dark:text-gray-200"
-                    >
-                         termes & conditions
-                    </a>
-                    {/* and
-                    <a
-                      href="#"
-                      className="text-gray-700 underline dark:text-gray-200"
-                    >
-                      privacy policy
-                    </a> */}
-                    .
-                  </p>
-                </div>
-
-                <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
-                  <button className="inline-block bg-principal px-5 py-3 text-sm font-medium rounded-3xl hover:bg-secondc text-white">
-                    Créer un compte
+                    S'inscrire
                   </button>
-
-                  <p className="mt-4 text-sm text-gray-500 dark:text-gray-400 sm:mt-0">
-                    Vous avez déjà un compte ?
-                    <a
-                      href="#"
-                      className="text-gray-700 underline dark:text-gray-200"
-                    >
-                      Connectez-vous
-                    </a>
-                    .
-                  </p>
                 </div>
               </form>
             </div>

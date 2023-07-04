@@ -3,6 +3,8 @@ const Objet = require('../models/objet');
 const mail = require("../utils/sendMail");
 const jwt = require('jsonwebtoken');
 require('dotenv').config()
+
+
 // Cette fonction crée un jeton JWT pour un ID utilisateur donné
 const createToken = (_id) => {
   console.log({_id,env: process.env.SECRET});

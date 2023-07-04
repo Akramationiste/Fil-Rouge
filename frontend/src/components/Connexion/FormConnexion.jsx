@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Login from "../../assets/Connexion/login.jpg";
 import { Link } from "react-router-dom";
+import axios from "../../api/axios.js";
 
 function FormConnexion() {
   return (

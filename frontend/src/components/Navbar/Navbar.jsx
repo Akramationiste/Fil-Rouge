@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Logo from './../../assets/Accueil/Logo1.png'
+import Logo from "./../../assets/Accueil/Logo1.png";
 import LoadingBar from "react-top-loading-bar";
 
 export default function Navbar() {
@@ -8,10 +8,12 @@ export default function Navbar() {
   const [isMenuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
+    console.log(localStorage.token);
     const handleScroll = () => {
       const windowHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
       const progress = (scrollTop / (documentHeight - windowHeight)) * 100;
       setProgress(progress);
     };
@@ -85,23 +87,40 @@ export default function Navbar() {
             </div>
 
             <div className="flex items-center gap-4">
-              <div className="sm:flex sm:gap-4">
-                <Link
-                  className="rounded-3xl bg-principal px-5 py-2.5 text-sm font-medium text-white shadow hover:bg-secondc"
-                  to="/Connexion"
-                >
-                  Se connecter
-                </Link>
-                <Link
-                  className={`rounded-3xl bg-gray-100 px-5 py-2.5 text-sm font-medium text-principal hover:bg-secondc ${
-                    isMenuOpen ? " sm:flex" : "sm"
-                  }`}
-                  to="/Inscription"
-                >
-                  S'inscrire
-                </Link>
-              </div>
-
+              {!localStorage.token ? (
+                <div className="sm:flex sm:gap-4">
+                  <Link
+                    className="rounded-3xl bg-principal px-5 py-2.5 text-sm font-medium text-white shadow hover:bg-secondc"
+                    to="/Connexion"
+                  >
+                    Se connecter
+                  </Link>
+                  <Link
+                    className={`rounded-3xl bg-gray-100 px-5 py-2.5 text-sm font-medium text-principal hover:bg-secondc ${
+                      isMenuOpen ? " sm:flex" : "sm"
+                    }`}
+                    to="/Inscription"
+                  >
+                    S'inscrire
+                  </Link>
+                </div>
+              ) : (
+                <div className="sm:flex sm:gap-4">
+                  <Link
+                    className="rounded-3xl bg-principal px-5 py-2.5 text-sm font-medium text-white shadow hover:bg-secondc"
+                    to="/Connexion"
+                  >
+                    Profil
+                  </Link>
+                  <button
+                    className={`rounded-3xl bg-gray-100 px-5 py-2.5 text-sm font-medium text-principal hover:bg-secondc ${
+                      isMenuOpen ? " sm:flex" : "sm"
+                    }`}
+                  >
+                    Déconnecter
+                  </button>
+                </div>
+              )}
               <div className="block md:hidden">
                 <button
                   className="rounded bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75"
@@ -170,7 +189,7 @@ export default function Navbar() {
         </nav>
       )}
 
-      <div className="bg-white">
+      <div className="bg-white ">
         <div className="mx-auto max-w-screen-xl mb-5 px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-center">
             {/* Barre de recherche */}
@@ -185,14 +204,14 @@ export default function Navbar() {
               </button>
             </div>
 
-            <div className="ml-4">
+            {/* <div className="ml-4">
               <Link
                 className="text-black font-bold transition hover:text-secondc/75"
                 to="/Reservations"
               >
                 Réservations
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
