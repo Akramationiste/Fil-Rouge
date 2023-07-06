@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "./../../assets/Accueil/Logo1.png";
 import LoadingBar from "react-top-loading-bar";
 
 export default function Navbar() {
   const [progress, setProgress] = useState(0);
   const [isMenuOpen, setMenuOpen] = useState(false);
+  const [isConnected, setIsConnected] = useState(null);
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (localStorage.token) {
+      setIsConnected(true);
+    }
+  }, [isConnected]);
 
   useEffect(() => {
     console.log(localStorage.token);
@@ -24,6 +31,14 @@ export default function Navbar() {
 
   const toggleMenu = () => {
     setMenuOpen(!isMenuOpen);
+  };
+
+  const handleLogout = () => {
+    // Effectuez les actions de déconnexion nécessaires, par exemple :
+    localStorage.removeItem("token");
+    setIsConnected(false);
+    navigate('/')
+    // Redirigez l'utilisateur vers la page de connexion ou faites toute autre action nécessaire
   };
 
   return (
@@ -87,7 +102,7 @@ export default function Navbar() {
             </div>
 
             <div className="flex items-center gap-4">
-              {!localStorage.token ? (
+              {!isConnected ? (
                 <div className="sm:flex sm:gap-4">
                   <Link
                     className="rounded-3xl bg-principal px-5 py-2.5 text-sm font-medium text-white shadow hover:bg-secondc"
@@ -116,6 +131,7 @@ export default function Navbar() {
                     className={`rounded-3xl bg-gray-100 px-5 py-2.5 text-sm font-medium text-principal hover:bg-secondc ${
                       isMenuOpen ? " sm:flex" : "sm"
                     }`}
+                    onClick={handleLogout}
                   >
                     Déconnecter
                   </button>

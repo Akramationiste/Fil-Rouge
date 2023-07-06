@@ -1,13 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Login from "../../assets/Connexion/login.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "../../api/axios.js";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function FormConnexion() {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const navigate = useNavigate();
+  const notify = (msg) => toast.error(msg, {});
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("/auth/login", formData);
+      const { email, token } = response.data;
+      console.log("Connexion réussie !", email, token);
+      localStorage.token = token;
+      // navigate("/");
+      window.location.href = "/";
+
+      // Effectuez ici les actions appropriées après une connexion réussie
+    } catch (error) {
+      console.error("Erreur lors de la connexion :", error);
+      notify(error.response.data.error);
+      // Gérez les erreurs de connexion ici
+    }
+  };
+
   return (
     <div>
       <section className="relative flex flex-wrap lg:h-screen m-8 lg:items-center rounded-3xl shadow-2xl p-4">
+        <ToastContainer />
         <div className="w-full px-4 py-12 sm:px-6 sm:py-16 lg:w-1/2 lg:px-8 lg:py-24">
           <div className="mx-auto max-w-lg text-center">
             <h1 className="text-2xl font-bold font-aleo sm:text-3xl">
@@ -20,7 +52,10 @@ function FormConnexion() {
             </p>
           </div>
 
-          <form action="" className="mx-auto mb-0 mt-8 max-w-md space-y-4">
+          <form
+            onSubmit={handleSubmit}
+            className="mx-auto mb-0 mt-8 max-w-md space-y-4"
+          >
             <div>
               <label htmlFor="email" className="sr-only">
                 Email
@@ -29,26 +64,12 @@ function FormConnexion() {
               <div className="relative">
                 <input
                   type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                   placeholder="Entez votre email"
                 />
-
-                <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 text-gray-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-                    />
-                  </svg>
-                </span>
               </div>
             </div>
 
@@ -60,53 +81,25 @@ function FormConnexion() {
               <div className="relative">
                 <input
                   type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
                   className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
-                  placeholder="Entrez votre mot de passe"
+                  placeholder="Entez votre mot de passe"
                 />
-
-                <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 text-gray-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                    />
-                  </svg>
-                </span>
               </div>
             </div>
 
-            <div className="flex items-center justify-between">
-              <p className="text-sm text-gray-500">
-                Vous n'avez pas un compte ? 
-                <Link className="underline" to="/Inscription">
-                  Inscrivez-vous
-                </Link>
-              </p>
-
+            <div>
               <button
                 type="submit"
-                className="inline-block bg-principal px-5 py-3 text-sm font-medium rounded-3xl hover:bg-secondc text-white"
+                className="rounded-3xl bg-principal px-5 py-2.5 text-sm font-medium text-white shadow hover:bg-secondc"
               >
-                Sign in
+                Se connecter
               </button>
             </div>
           </form>
         </div>
-
         <div className="relative h-64 w-full sm:h-96 lg:h-full rounded-3xl lg:w-1/2">
           <motion.img
             alt="Welcome"

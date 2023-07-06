@@ -5,11 +5,6 @@ import "./CardsCat.css";
 function CardsCat() {
   return (
 <div>
-{/*
-Heads up! 👋
-
-This component comes with some `rtl` classes. Please remove them if they are not needed in your project.
-*/}
 
 <Link
   to="#"
