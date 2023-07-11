@@ -8,6 +8,7 @@ import OnQuantity from "../components/Accueil/OnQuantity";
 import Separateur from "../components/Separateur";
 import MostObjets from "../components/Accueil/MostObjets";
 import Description from "../components/Accueil/Description";
+import Newsletter from "../components/Accueil/Newsletter";
 
 function Accueil() {
   return (
@@ -17,9 +18,11 @@ function Accueil() {
       <OnQuantity />
       <Produit />
       <Separateur />
-      <SwiperAccueil />
+      <Description />
       <Separateur />
-      <Description/>
+      {/* <SwiperAccueil />
+      <Separateur /> */}
+      <Newsletter />
       <Separateur />
       <PubAccueil />
       <Separateur />

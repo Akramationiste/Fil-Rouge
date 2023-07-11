@@ -44,10 +44,10 @@ const ObjetSchema = new mongoose.Schema({
     },
     objet_loue : {
         type: Boolean
-    },
-    objet_reserve : {
-        type : Boolean
     }
+    // objet_reserve : {
+    //     type : Boolean
+    // }
 });
 
 

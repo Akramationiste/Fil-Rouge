@@ -1,10 +1,12 @@
 const express = require("express");
 const router = express.Router();
+const control0 = require('../controllers/utilisateur');
 const control1 = require('../controllers/objet');
 const control2 = require('../controllers/categorie');
 const control4 = require('../controllers/commentaire');
 const control5 = require('../controllers/reponse');
 const control6 = require('../controllers/location');
+const control7 = require('../controllers/newsletter');
 const authorization = require('../middlewares/authm');
 const multer = require ('multer');
 const path = require('path');
@@ -53,7 +55,7 @@ router.get('/categories', control2.afficherToutesCat);
 router.get('/categories/:id', control2.afficherCategorie);
 
 // Ajouter une catégorie
-router.post('/categories', control2.ajouterCategorie);
+router.post('/categories', [authorization.VerifyToken], control2.ajouterCategorie);
 
 // Supprimer une catégorie
 router.delete('/categories/:id', [authorization.VerifyToken], control2.supprimerCategorie);
@@ -117,6 +119,9 @@ router.post('/renouveler_locations/:id', [authorization.VerifyToken], control6.r
 // Les statistiques
 router.get('/stats', control6.afficherStats);
 
+
+// Newsletter 
+router.post('/newsletter', control7.ajouterEmail)
 
 
 

@@ -11,6 +11,8 @@ import Profil from "./pages/Profil";
 import Reservation from "./pages/Reservation";
 import SurNous from "./pages/SurNous";
 import FAQs from "./pages/FAQs";
+import MdpOublie from "./pages/MdpOublie";
+import AjouterObjet from "./pages/AjouterObjet";
 
 import {
   createBrowserRouter,
@@ -35,6 +37,8 @@ const router = createBrowserRouter(
       <Route path="/Categories" element={<Categories />} />
       <Route path="/SurNous" element={<SurNous />} />
       <Route path="/FAQs" element={<FAQs />} />
+      <Route path="/MdpOublie" element={<MdpOublie />} />
+      <Route path="/AjouterObjet" element={<AjouterObjet />} />
     </Route>
   )
 );

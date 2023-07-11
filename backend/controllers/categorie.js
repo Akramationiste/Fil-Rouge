@@ -10,6 +10,7 @@ const {sendEmail} = require("../utils/sendMail")
 async function ajouterCategorie(req, res) {
   let categorie = new Categorie({
     nom_cat: req.body.nom_cat,
+    desc_cat: req.body.desc_cat,
     nbr_objets: req.body.nbr_objets,
   });
   try {
@@ -74,6 +75,7 @@ async function modifierCategorie(req, res) {
   try {
     const categorieModifiee = await Categorie.findByIdAndUpdate(req.params.id, {
       nom_cat: req.body.nom_cat,
+      desc_cat: req.body.desc_cat,
       nbr_objets: req.body.nbr_objets
     }, { new: true });
     res.json(categorieModifiee);

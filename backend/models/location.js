@@ -8,7 +8,7 @@ const LocationSchema = new mongoose.Schema({
     },
     objet_id: {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: "livre",
+        ref: "objet",
         required : true
     },
     date_location: {

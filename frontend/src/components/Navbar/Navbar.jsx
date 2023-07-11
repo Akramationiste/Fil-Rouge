@@ -123,7 +123,7 @@ export default function Navbar() {
                 <div className="sm:flex sm:gap-4">
                   <Link
                     className="rounded-3xl bg-principal px-5 py-2.5 text-sm font-medium text-white shadow hover:bg-secondc"
-                    to="/Connexion"
+                    to="/Profil"
                   >
                     Profil
                   </Link>

@@ -90,13 +90,25 @@ function FormConnexion() {
               </div>
             </div>
 
-            <div>
+
+
+            <div  className="flex items-center justify-between">
+            <p className="text-sm text-gray-500">
+          Vous n'avez pas un compte ?
+          <Link className="underline" to="/Inscription">Inscrivez-vous</Link>
+        </p>
               <button
                 type="submit"
                 className="rounded-3xl bg-principal px-5 py-2.5 text-sm font-medium text-white shadow hover:bg-secondc"
               >
                 Se connecter
               </button>
+            </div>
+            <div>
+            <p className="text-sm text-gray-500">
+          Mot de passe oublié ?
+          <Link className="underline text-secondc" to="/MdpOublie">Cliquez ici</Link>
+        </p>
             </div>
           </form>
         </div>

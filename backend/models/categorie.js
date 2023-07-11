@@ -5,6 +5,10 @@ const  CategorieSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    desc_cat: {
+        type: String,
+        required: true
+    },
     nbr_objets: {
       type: Number,
       required: true,

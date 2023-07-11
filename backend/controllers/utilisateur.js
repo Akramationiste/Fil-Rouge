@@ -29,7 +29,7 @@ const register = async (req, res) => {
   try {
     const utilisateur = await Utilisateur.signup(nom, age, mobile, adresse, email, password);
     const token = createToken(utilisateur._id);
-    const from = "akram44244@gmail.com";
+    const from = "muchamucha92@gmail.com";
     const subject = "FabriKri : Bienvenue !";
     const text = "Merci pour votre inscription !";
     mail.sendEmail(from, email, subject, text);
@@ -124,6 +124,13 @@ const modifierUtilisateur = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 };
+
+
+
+
+
+
+
 
 module.exports = {
   register,
