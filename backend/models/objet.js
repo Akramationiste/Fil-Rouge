@@ -19,7 +19,7 @@ const ObjetSchema = new mongoose.Schema({
         required : true
     },
     image: {
-        type: String,
+        type: [String],
         required: true
     },      
     etat: {
@@ -36,7 +36,7 @@ const ObjetSchema = new mongoose.Schema({
     },
     isValid: {
         type: Boolean,
-        default: false
+        default: true
     },
     description: {
         type: String,

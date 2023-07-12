@@ -8,7 +8,13 @@ const multer = require ('multer');
 
 
 async function ajouterObjet(req, res) {
-  const { nom_objet, cat_id, proprietaire_id, etat, prix, note, description, image, objet_loue } = req.body;
+  console.log(req.files);
+  const images  = req.files.map((file)=>{
+    return `./images_objets/${file.filename}`
+  });
+  console.log(images)
+  // return res.sendStatus (200)
+  const { nom_objet, cat_id, proprietaire_id, etat, prix, note, description, objet_loue } = req.body;
 
   try {
     const objet = new Objet({
@@ -19,7 +25,7 @@ async function ajouterObjet(req, res) {
       prix,
       note,
       description,
-      image,
+      image: images,
       objet_loue
     });
 
@@ -29,7 +35,7 @@ async function ajouterObjet(req, res) {
       { new: true }
     );
 
-    await livre.save();
+    await objet.save();
 
     res.status(201).json({ objet, categorie });
   } catch (error) {

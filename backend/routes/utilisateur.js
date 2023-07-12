@@ -20,7 +20,7 @@ const upload = multer({
             callback(null, path.join(__dirname, "../images_objets"))
         },
         filename: function (req, file, callback) {
-            callback(null, `${Date.now().toString()}.jpeg`)
+            callback(null, `${Date.now().toString()}-${file.originalname}`)
         }
     })
 });
@@ -38,7 +38,7 @@ router.get('/objets/:id', control1.afficherObjet);
 router.get('/objets_filtres', control1.afficherObjetFiltre);
 
 // Ajouter un objet
-router.post('/objets', upload.array(), control1.ajouterObjet);
+router.post('/objets', upload.array('files'), control1.ajouterObjet);
 
 // Supprimer un objet
 router.delete('/objets/:id', control1.supprimerObjet);
