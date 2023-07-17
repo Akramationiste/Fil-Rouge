@@ -1,4 +1,5 @@
 import React from 'react'
+import DetailsObjet from '../components/ObjetDetails/DetailsObjet';
 
 
 
@@ -6,7 +7,7 @@ import React from 'react'
 function ObjetDetails () {
   return (
     <div>
-        
+        <DetailsObjet/>
     </div>
   )
 }

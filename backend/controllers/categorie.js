@@ -1,7 +1,7 @@
 const Categorie = require('../models/categorie');
 const utilisateur = require('../models/utilisateur')
-// const nodemailer = require ('nodemailer');
-const {sendEmail} = require("../utils/sendMail")
+// // const nodemailer = require ('nodemailer');
+// const {sendEmail} = require("../utils/sendMail")
 
 
 // functions : catégories
@@ -16,9 +16,9 @@ async function ajouterCategorie(req, res) {
   try {
     const nouvelleCategorie = await categorie.save();
     const users = await utilisateur.find()
-    users.forEach(usr => {
-      sendEmail(usr)
-    })
+    // users.forEach(usr => {
+    //   sendEmail(usr)
+    // })
     res.status(201).json({ message: "Catégorie ajoutée avec succès", categorie: nouvelleCategorie });
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -84,11 +84,25 @@ async function modifierCategorie(req, res) {
   }
 }
 
+async function afficherQuatreDernieresCat(req, res) {
+  try {
+    const categories = await Categorie.find()
+      .sort({ createdAt: -1 })
+      .limit(4);
+
+    res.json(categories);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}
+
+
 
 module.exports = {
   ajouterCategorie,
   afficherCategorie,
   afficherToutesCat,
   supprimerCategorie,
-  modifierCategorie
+  modifierCategorie,
+  afficherQuatreDernieresCat
 };

@@ -1,8 +1,39 @@
-import React from 'react'      
+import React, { useEffect, useState } from 'react';
 import Lottie from "lottie-react";
+import axios from '../../api/axios';
 import avatar from "../../assets/Profil/profil.json";
+import jwt_decode from "jwt-decode";
 
 function CardProfil() {
+  const [utilisateur, setUtilisateur] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const decode = jwt_decode(token);
+    const userId = decode._id;
+
+    const fetchUtilisateur = async () => {
+      try {
+        const response = await axios.get(`/api/utilisateur/profil/${userId}`, config);
+        setUtilisateur(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchUtilisateur();
+  }, []);
+
+  if (!utilisateur) {
+    return <div className='my-11 font-bold'>Loading...</div>;
+  }
+
   return (
     <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-lg">
@@ -17,27 +48,27 @@ function CardProfil() {
 
           <div>
             <label htmlFor="nom" className="font-semibold">Nom:</label>
-            <p></p>
+            <p>{utilisateur.nom}</p>
           </div>
 
           <div>
             <label htmlFor="age" className="font-semibold">Age:</label>
-            <p></p>
+            <p>{utilisateur.age}</p>
           </div>
 
           <div>
             <label htmlFor="mobile" className="font-semibold">Mobile:</label>
-            <p></p>
+            <p>{utilisateur.mobile}</p>
           </div>
 
           <div>
             <label htmlFor="email" className="font-semibold">Email:</label>
-            <p></p>
+            <p>{utilisateur.email}</p>
           </div>
 
           <div>
             <label htmlFor="adresse" className="font-semibold">Adresse:</label>
-            <p></p>
+            <p>{utilisateur.adresse}</p>
           </div>
 
           <div className="flex justify-between">

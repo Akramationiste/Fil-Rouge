@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import axios from '../../api/axios';
 import { motion, useViewportScroll, useTransform } from 'framer-motion';
 
 function Produit() {
   const [isVisible, setIsVisible] = useState(false);
+  const [derniersObjets, setDerniersObjets] = useState([]);
   const { scrollY } = useViewportScroll();
   const sectionRef = React.useRef(null);
   const sectionTop = useTransform(scrollY, (value) => {
@@ -13,6 +15,15 @@ function Produit() {
   });
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/api/utilisateur/derniersObjets');
+        setDerniersObjets(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     const handleScroll = () => {
       const scrollPosition = window.scrollY + window.innerHeight;
       const isScrollingDown = scrollY.get() > scrollY.getPrevious();
@@ -22,8 +33,11 @@ function Produit() {
         setIsVisible(false);
       }
     };
+
+    fetchData(); // Appel de la fonction pour récupérer les deux derniers objets lors du montage initial
     handleScroll(); // Déclencher la fonction lors du montage initial
     window.addEventListener('scroll', handleScroll);
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -48,7 +62,7 @@ function Produit() {
             >
               <div className="max-w-md mx-auto text-center lg:text-left">
                 <header>
-                  <h2 className="text-xl font-bold text-white sm:text-3xl">Watches</h2>
+                  <h2 className="text-xl font-bold text-white sm:text-3xl">Nouveautés</h2>
 
                   <p className="mt-4 text-white">
                     Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas rerum quam amet provident nulla
@@ -67,55 +81,33 @@ function Produit() {
 
             <div className="lg:col-span-2 lg:py-8">
               <ul className="grid grid-cols-2 gap-4">
-                <motion.li
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                >
-                  <a href="#" className="block group">
-                    <motion.img
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-                      transition={{ duration: 0.6, delay: 0.4 }}
-                      src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1598&q=80"
-                      alt=""
-                      className="object-cover w-full rounded-3xl aspect-square"
-                    />
+                {derniersObjets.map((objet) => (
+                  <motion.li
+                    key={objet._id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                  >
+                    <a href="#" className="block group">
+                      <motion.img
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+                        transition={{ duration: 0.6, delay: 0.4 }}
+                        src={`http://localhost:3000${objet.image[0].replace(".", "")}`}
+                        alt={objet.nom_objet}
+                        className="object-cover w-full rounded-3xl aspect-square"
+                      />
 
-                    <div className="mt-3">
-                      <h3 className="font-medium text-gray-900 group-hover:underline group-hover:underline-offset-4">
-                        Simple Watch
-                      </h3>
+                      <div className="mt-3">
+                        <h3 className="font-medium text-gray-900 group-hover:underline group-hover:underline-offset-4">
+                          {objet.nom_objet}
+                        </h3>
 
-                      <p className="mt-1 text-sm text-gray-700">$150</p>
-                    </div>
-                  </a>
-                </motion.li>
-
-                <motion.li
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{ duration: 0.6, delay: 0.5 }}
-                >
-                  <a href="#" className="block group">
-                    <motion.img
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-                      transition={{ duration: 0.6, delay: 0.7 }}
-                      src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1598&q=80"
-                      alt=""
-                      className="object-cover w-full rounded-3xl aspect-square"
-                    />
-
-                    <div className="mt-3">
-                      <h3 className="font-medium text-gray-900 group-hover:underline group-hover:underline-offset-4">
-                        Simple Watch
-                      </h3>
-
-                      <p className="mt-1 text-sm text-gray-700">$150</p>
-                    </div>
-                  </a>
-                </motion.li>
+                        <p className="mt-1 text-sm text-gray-700">{objet.prix} DA</p>
+                      </div>
+                    </a>
+                  </motion.li>
+                ))}
               </ul>
             </div>
           </div>

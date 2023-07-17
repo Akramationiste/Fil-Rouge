@@ -1,8 +1,11 @@
 import React from 'react'
+import FormAjoutObjet from '../components/AjouterObjet/FormAjoutObjet'
 
 function AjouterObjet() {
   return (
-    <div>AjouterObjet</div>
+    <div>
+      <FormAjoutObjet/>
+    </div>
   )
 }
 

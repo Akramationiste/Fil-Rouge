@@ -5,6 +5,7 @@ import "./CardsCat.css";
 
 function CardsCat() {
   const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
     fetchCategories();
@@ -23,10 +24,11 @@ function CardsCat() {
     <div>
       {categories.map((category) => (
         <Link
-          to="#"
+          to={`/ListeObjets/${category._id}`}
           id="List"
           className="group flex flex-col justify-between rounded-sm bg-white p-4 m-10 shadow-xl transition-shadow hover:shadow-lg sm:p-6 lg:p-8"
-          key={category.id}
+          key={category._id}
+          onClick={() => setSelectedCategory(category)}
         >
           <div>
             <h3 className="text-3xl font-bold text-principal sm:text-5xl">

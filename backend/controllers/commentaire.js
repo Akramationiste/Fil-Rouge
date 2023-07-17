@@ -5,6 +5,7 @@ const Utilisateur = require('../models/utilisateur');
 
 async function ajouterCommentaire(req, res) {
     const { user_id, objet_id, comment } = req.body;
+    // console.log(req.body)
     try {
       // Vérifier si l'utilisateur existe
       const utilisateurExiste = await Utilisateur.exists({ _id: user_id });
@@ -12,21 +13,22 @@ async function ajouterCommentaire(req, res) {
         throw new Error('Utilisateur introuvable');
       }
   
-      const commentaire = new Commentaire({ user_id, objet_id, comment });
-      await commentaire.save();
+      const commentaire =  await Commentaire.create({ user_id, objet_id, comment });
+      // await commentaire.save();
   
       // Supprimer le commentaire si l'objet commenté est supprimé
-      try {
-        const objet = await Objet.findById(objet_id);
-        if (!objet) {
-          await Commentaire.deleteOne({ _id: commentaire._id });
-          console.log(`Commentaire avec l'id ${commentaire._id} supprimé car l'objet associé est introuvable`);
-        }
-        res.status(200).send("Commentaire ajouté avec succès");
-      } catch (err) {
-        console.log(err.message);
-        res.status(500).send("Erreur lors de l'ajout du commentaire");
-      }
+      // try {
+      //   const objet = await Objet.findById(objet_id);
+      //   if (!objet) {
+      //     await Commentaire.deleteOne({ _id: commentaire._id });
+      //     console.log(`Commentaire avec l'id ${commentaire._id} supprimé car l'objet associé est introuvable`);
+      //   }
+      //   res.status(200).send("Commentaire ajouté avec succès");
+      // } catch (err) {
+      //   console.log(err.message);
+      //   res.status(500).send("Erreur lors de l'ajout du commentaire");
+      // }
+      res.sendStatus(200)
     } catch (err) {
       console.log(err.message);
       res.status(500).send(`Erreur lors de l'ajout du commentaire : ${err.message}`);
@@ -53,6 +55,36 @@ async function afficherCommentaire(req, res){
 };
 
 
+
+// Fonction pour afficher tous les commentaires
+const afficherTousCom = async (req, res) => {
+  try {
+    const commentaires = await Commentaire.find();
+    res.json(commentaires);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
+// Fonction pour afficher tous les commentaires (objet)
+const afficherTousComId = async (req, res) => {
+  try {
+
+    const objetId = req.params.id
+
+
+    const commentaires = await Commentaire.find({objet_id:objetId}).populate('user_id','nom ');
+    res.json(commentaires);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
+
+////////////supprimer un commentaire/////////////////:
+
 async function supprimerCommentaire(req, res){
     let commentaireSupprime 
     try {
@@ -68,6 +100,7 @@ async function supprimerCommentaire(req, res){
 }
 
 
+////////////modifier un commentaire/////////////////:
 
 async function modifierCommentaire(req, res) {
   try {
@@ -85,6 +118,8 @@ async function modifierCommentaire(req, res) {
 
 module.exports = {
     afficherCommentaire,
+    afficherTousCom,
+    afficherTousComId,
     ajouterCommentaire,
     supprimerCommentaire,
     modifierCommentaire

@@ -55,10 +55,10 @@ function HeroHome() {
               transition={{ duration: 1, delay: 1.5 }}
             >
               <Link
-                to="#"
+                to="/ListeObjets"
                 className="block w-full  bg-principal px-12 py-3 text-sm font-medium rounded-3xl text-white shadow hover:bg-secondc focus:outline-none focus:ring active:bg-rose-500 sm:w-auto"
               >
-                Get Started
+                Voir tous les objets
               </Link>
             </motion.div>
           </div>
