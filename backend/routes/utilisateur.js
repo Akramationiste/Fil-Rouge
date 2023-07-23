@@ -15,18 +15,22 @@ const path = require('path');
 
 
 
-const upload = multer({
-    storage: multer.diskStorage({
-        destination: function(req, file, callback) {
-            callback(null, path.join(__dirname, "../public/images_objets"))
-        },
-        filename: function (req, file, callback) {
-            console.log({file})
-            callback(null, `${Date.now().toString()}-${file.originalname}`)
-        }
-    })
-});
 
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: function (req, file, callback) {
+      console.log("1");
+      callback(null, path.join(__dirname, '../public/images_objets'));
+    },
+    filename: function (req, file, callback) {
+      console.log("2");
+      console.log({ file });
+      callback(null, `${Date.now().toString()}-${file.originalname}`);
+    },
+  }),
+});
+  
+  
 
 
 
@@ -44,7 +48,10 @@ router.delete('/utilisateurs/:id', control0.supprimerUtilisateur);
 router.patch('/utilisateurs/:id', control0.modifierUtilisateur);
 
 
+////////////////////////////////////////////////////////////////////////
 
+// Ajouter un objet
+router.post('/objets', upload.array('files', 4), control1.ajouterObjet);
 
 // Afficher tous les objets
 router.get('/objets', control1.afficherTousObjets);
@@ -52,14 +59,14 @@ router.get('/objets', control1.afficherTousObjets);
 // Afficher tous les objets par catégories
 router.get('/objetsCat/:id', control1.afficherTousObjetsCat);
 
+// Afficher tous les objets par propriétaire
+router.get('/objetsCat/:id', control1.afficherTousObjetsUser);
+
 // Afficher un objet
 router.get('/objets/:id', control1.afficherObjet);
 
 // Afficher un objet par filtre
 router.get('/objets_filtres', control1.afficherObjetFiltre);
-
-// Ajouter un objet
-router.post('/objets', upload.array('files'), control1.ajouterObjet);
 
 // Supprimer un objet
 router.delete('/objets/:id', control1.supprimerObjet);
@@ -75,6 +82,9 @@ router.get('/derniersObjets', control1.afficherDerniersObjets);
 // Afficher toutes les catégories
 router.get('/categories', control2.afficherToutesCat);
 
+// Afficher les quatre dernières catégories
+router.get('/categories/dernieres', control2.afficherQuatreDernieresCat);
+
 // Afficher une catégorie
 router.get('/categories/:id', control2.afficherCategorie);
 
@@ -82,13 +92,14 @@ router.get('/categories/:id', control2.afficherCategorie);
 router.post('/categories', control2.ajouterCategorie);
 
 // Supprimer une catégorie
-router.delete('/categories/:id', [authorization.VerifyToken], control2.supprimerCategorie);
+router.delete('/categories/:id', control2.supprimerCategorie);
 
 // Modifier une catégorie
-router.patch('/categories/:id', [authorization.VerifyToken], control2.modifierCategorie);
+router.patch('/categories/:id', control2.modifierCategorie);
 
-// Afficher les quatre dernières catégories
-router.get('/categories/dernieres', control2.afficherQuatreDernieresCat);
+
+
+
 
 
 
@@ -161,6 +172,9 @@ router.post('/renouveler_locations/:id', [authorization.VerifyToken], control6.r
 
 
 
+
+// La recherche 
+router.get('/recherche', control1.rechercherObjetParNom);
 
 // Les statistiques
 router.get('/stats', control6.afficherStats);

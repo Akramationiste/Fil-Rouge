@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
 import axios from '../../api/axios';
 import { motion, useViewportScroll, useTransform } from 'framer-motion';
 
@@ -70,12 +71,12 @@ function Produit() {
                   </p>
                 </header>
 
-                <a
-                  href="#"
+                <Link
+                  to="/ListeObjets"
                   className="inline-block px-12 py-3 mt-8 text-sm font-medium text-white transition bg-principal border border-principal rounded-3xl hover:bg-secondc focus:outline-none focus:ring"
                 >
                   Voir plus
-                </a>
+                </Link>
               </div>
             </motion.div>
 
@@ -88,7 +89,7 @@ function Produit() {
                     animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
                   >
-                    <a href="#" className="block group">
+                    <Link to={`/ObjetDetails/${objet._id}`} className="block group">
                       <motion.img
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
@@ -105,7 +106,7 @@ function Produit() {
 
                         <p className="mt-1 text-sm text-gray-700">{objet.prix} DA</p>
                       </div>
-                    </a>
+                    </Link>
                   </motion.li>
                 ))}
               </ul>

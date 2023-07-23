@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import axios from "../../api/axios";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import useUserId from "../../hooks/useUserId";
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from '../../api/axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import useUserId from '../../hooks/useUserId';
 
 function DetailsObjet() {
   const { id } = useParams();
   const { userID } = useUserId();
-  const [commentaire, setCommentaire] = useState("");
+  const [commentaire, setCommentaire] = useState('');
   const [commentaires, setCommentaires] = useState([]);
   const [objet, setObjet] = useState(null);
   const [utilisateur, setUtilisateur] = useState(null);
-
   const [reFetch, setRefetch] = useState(false);
 
   useEffect(() => {
@@ -32,10 +31,7 @@ function DetailsObjet() {
 
   const chargerCommentaires = async () => {
     try {
-      const response = await axios.get(
-        `/api/utilisateur/commentaires/objets/${id}`
-      );
-      console.log({ comments: response.data });
+      const response = await axios.get(`/api/utilisateur/commentaires/objets/${id}`);
       setCommentaires(response.data);
     } catch (error) {
       console.error(error);
@@ -46,7 +42,6 @@ function DetailsObjet() {
     try {
       const response = await axios.get(`/api/utilisateur/utilisateurs/${id}`);
       setUtilisateur(response.data);
-      console.log({ user: userID });
     } catch (error) {
       console.error(error);
     }
@@ -59,23 +54,22 @@ function DetailsObjet() {
   const handleSubmitCommentaire = async (event) => {
     event.preventDefault();
 
-    // Vérifier si l'utilisateur est connecté
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
     if (!token) {
-      toast.error("Vous devez être connecté pour ajouter un commentaire");
+      toast.error('Vous devez être connecté pour ajouter un commentaire');
       return;
     }
 
     try {
-      const response = await axios.post("/api/utilisateur/commentaires", {
+      const response = await axios.post('/api/utilisateur/commentaires', {
         user_id: userID,
         objet_id: objet?._id,
         comment: commentaire,
       });
 
       setCommentaires([...commentaires, response.data]);
-      setCommentaire("");
-      toast.success("Le commentaire a été ajouté avec succès");
+      setCommentaire('');
+      toast.success('Le commentaire a été ajouté avec succès');
       setRefetch(!reFetch);
     } catch (error) {
       toast.error("Une erreur s'est produite lors de l'ajout du commentaire");
@@ -83,22 +77,19 @@ function DetailsObjet() {
   };
 
   const handleDeleteCommentaire = async (commentId) => {
-    // Vérifier si l'utilisateur est connecté
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
     if (!token) {
-      toast.error("Vous devez être connecté pour supprimer un commentaire");
+      toast.error('Vous devez être connecté pour supprimer un commentaire');
       return;
     }
 
     try {
       await axios.delete(`/api/utilisateur/commentaires/${commentId}`);
       setCommentaires(commentaires.filter((c) => c._id !== commentId));
-      toast.success("Le commentaire a été supprimé avec succès");
+      toast.success('Le commentaire a été supprimé avec succès');
       setRefetch(!reFetch);
     } catch (error) {
-      toast.error(
-        "Une erreur s'est produite lors de la suppression du commentaire"
-      );
+      toast.error('Une erreur s\'est produite lors de la suppression du commentaire');
     }
   };
 
@@ -117,10 +108,7 @@ function DetailsObjet() {
           <div className="grid grid-cols gap-4 md:grid-cols-1">
             <div className="grid grid-cols-2 gap-4">
               {image?.map((image, index) => (
-                <div
-                  key={index}
-                  className="aspect-square rounded-xl overflow-hidden"
-                >
+                <div key={index} className="aspect-square rounded-xl overflow-hidden">
                   <img
                     alt={`image ${index + 1}`}
                     src={`http://localhost:3000${image.replace(".", "")}`}
@@ -133,31 +121,31 @@ function DetailsObjet() {
 
           <div className="sticky top-0">
             <strong className="rounded-full border border-principal bg-gray-100 px-3 py-0.5 text-xs font-medium tracking-wide text-principal">
-              objet disponible (objet_loue=false)
+              Objet disponible
             </strong>
 
             <div className="mt-8 flex justify-between">
               <div className="max-w-[35ch] space-y-2">
                 <h1 className="text-xl font-bold sm:text-2xl">{nom_objet}</h1>
-                <p className="text-sm">Etat : {etat}</p>
+                <p className="text-sm text-green-800">Etat : {etat}</p>
                 <div className="-ms-0.5 flex">
-                  <span className="font-bold">Propriétaire : </span> {nom}
+                  <span className="font-bold text-gray-500">Propriétaire : </span> {nom}
                 </div>
                 <div className="-ms-0.5 flex">
-                  <span className="font-bold">Email : </span>
+                  <span className="font-bold text-gray-500">Email : </span>
                   {email}
                 </div>
                 <div className="-ms-0.5 flex">
-                  <span className="font-bold">Mobile : </span> {mobile}
+                  <span className="font-bold text-gray-500">Mobile : </span> 0{mobile}
                 </div>
               </div>
 
-              <p className="text-lg font-bold">{prix} DA/h</p>
+              <p className="text-lg text-green-600 font-bold">{prix} DA/h</p>
             </div>
 
             <div className="mt-4">
               <div className="prose max-w-none">
-                <p>{description}</p>
+                <p className='font-bold'>Description : <span className='font-normal'>{description}</span></p>
               </div>
             </div>
 

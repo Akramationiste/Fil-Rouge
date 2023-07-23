@@ -1,13 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "./../../assets/Accueil/Logo1.png";
 import LoadingBar from "react-top-loading-bar";
+import axios from "../../api/axios";
 
 export default function Navbar() {
   const [progress, setProgress] = useState(0);
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isConnected, setIsConnected] = useState(null);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const searchRef = useRef(null);
+
   useEffect(() => {
     if (localStorage.token) {
       setIsConnected(true);
@@ -15,7 +20,6 @@ export default function Navbar() {
   }, [isConnected]);
 
   useEffect(() => {
-    console.log(localStorage.token);
     const handleScroll = () => {
       const windowHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
@@ -29,20 +33,72 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    // Gérer le clic en dehors de la barre de recherche pour masquer les suggestions
+    const handleOutsideClick = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setSearchResults([]);
+      }
+    };
+
+    document.addEventListener("click", handleOutsideClick);
+    return () => document.removeEventListener("click", handleOutsideClick);
+  }, []);
+
+  const handleSearch = async () => {
+    try {
+      const response = await axios.get(
+        `/api/utilisateur/recherche?nom=${searchQuery}`
+      );
+      if (response.status === 200) {
+        setSearchResults(response.data);
+      } else {
+        // Gérer les erreurs si nécessaire
+      }
+    } catch (error) {
+      // Gérer les erreurs si nécessaire
+    }
+  };
+
+  const handleChange = async (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+
+    try {
+      const response = await axios.get(
+        `/api/utilisateur/recherche?nom=${query}`
+      );
+      if (response.status === 200) {
+        setSearchResults(response.data);
+      } else {
+        // Gérer les erreurs si nécessaire
+      }
+    } catch (error) {
+      // Gérer les erreurs si nécessaire
+    }
+  };
+
+  const handleSuggestionClick = (suggestion) => {
+    setSearchQuery(suggestion.nom_objet);
+    setSearchResults([]);
+  };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    handleSearch();
+  };
+
   const toggleMenu = () => {
     setMenuOpen(!isMenuOpen);
   };
 
   const handleLogout = () => {
-    // Effectuez les actions de déconnexion nécessaires, par exemple :
     localStorage.removeItem("token");
     setIsConnected(false);
-    navigate('/')
-    // Redirigez l'utilisateur vers la page de connexion ou faites toute autre action nécessaire
+    navigate("/");
   };
-
   return (
-    <>
+    <div>
       <LoadingBar
         color="#F6835F"
         progress={progress}
@@ -205,32 +261,46 @@ export default function Navbar() {
         </nav>
       )}
 
-      <div className="bg-white ">
+<div className="bg-white">
         <div className="mx-auto max-w-screen-xl mb-5 px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-center">
             {/* Barre de recherche */}
-            <div className="flex items-center">
+            <div className="flex items-center" ref={searchRef}>
               <input
                 type="text"
+                value={searchQuery}
+                onChange={handleChange}
+                placeholder="Rechercher des objets.."
                 className="rounded-l-3xl bg-gray-200 px-2 sm:text-sm text-base py-1 sm:px-4 sm:py-2 w-40 sm:w-64 focus:outline-none"
-                placeholder="Rechercher..."
               />
-              <button className="rounded-r-3xl bg-principal  hover:bg-secondc sm:text-sm text-base font-medium text-white px-2 py-1 sm:px-4 sm:py-2">
+              <button
+                type="submit"
+                onClick={handleSearchSubmit}
+                className="rounded-r-3xl bg-principal  hover:bg-secondc sm:text-sm text-base font-medium text-white px-2 py-1 sm:px-4 sm:py-2"
+              >
                 Rechercher
               </button>
             </div>
 
-            {/* <div className="ml-4">
-              <Link
-                className="text-black font-bold transition hover:text-secondc/75"
-                to="/Reservations"
-              >
-                Réservations
-              </Link>
-            </div> */}
+            {/* Afficher les résultats de recherche ici */}
+            {searchResults.length > 0 && (
+              <ul className="absolute z-10 bg-white border rounded-md mt-10 w-64">
+                {searchResults.map((objet) => (
+                  <li
+                    key={objet._id}
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => handleSuggestionClick(objet)}
+                  >
+                    <Link to={`/ObjetDetails/${objet._id}`}>
+                      {objet.nom_objet}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

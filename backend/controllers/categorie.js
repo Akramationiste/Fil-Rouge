@@ -84,17 +84,21 @@ async function modifierCategorie(req, res) {
   }
 }
 
+
 async function afficherQuatreDernieresCat(req, res) {
   try {
     const categories = await Categorie.find()
       .sort({ createdAt: -1 })
-      .limit(4);
-
+      .limit(4)
+      // .select("nom_cat");
+console.log({categories});
     res.json(categories);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.log(err);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 }
+
 
 
 

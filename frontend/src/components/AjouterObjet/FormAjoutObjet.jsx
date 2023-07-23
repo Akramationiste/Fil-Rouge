@@ -1,20 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import axios from '../../api/axios';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState, useEffect } from "react";
+import axios from "../../api/axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import useUserId from "../../hooks/useUserId";
 
 const FormAjoutObjet = () => {
+  const { userID } = useUserId();
+  const [previewImage, setPreviewImage] = useState([]);
   const [formData, setFormData] = useState({
-    nom_objet: '',
-    cat_id: '',
-    proprietaire_id: '',
-    etat: '',
+    nom_objet: "",
+    cat_id: "",
+    proprietaire_id: userID,
+    etat: "",
     prix: 0,
-    wilaya: '',
-    description: '',
+    wilaya: "",
+    description: "",
     objet_loue: false,
-    images: [],
   });
+
+  const handleFileOnChange = (e) => {
+    const files = e.target.files;
+    if (previewImage.length + files.length > 4) {
+      alert("You can select up to 4 images.");
+      return;
+    }
+    console.log({ files });
+    setPreviewImage((prev) => [...prev, ...files]);
+  };
 
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -24,11 +36,11 @@ const FormAjoutObjet = () => {
     const fetchCategories = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get('/api/utilisateur/nomCategories');
+        const response = await axios.get("/api/utilisateur/nomCategories");
         setCategories(response.data.categories);
         setIsLoading(false);
       } catch (error) {
-        console.error('Error fetching categories:', error);
+        console.error("Error fetching categories:", error);
         setIsLoading(false);
       }
     };
@@ -37,56 +49,52 @@ const FormAjoutObjet = () => {
   }, []);
 
   const handleInputChange = (event) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const handleImageUpload = (event) => {
-    const files = event.target.files;
-    const imageFormData = new FormData();
-  
-    for (let i = 0; i < files.length; i++) {
-      imageFormData.append('files', files[i]);
-    }
-  
-    // Upload des images et mise à jour des URLs des images dans le formulaire
-    axios.post('/api/utilisateur/objets', imageFormData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-      .then((response) => {
-        const imageUrls = response.data.objet.image;
-        setFormData({
-          ...formData,
-          images: imageUrls,
-        });
-      })
-      .catch((error) => {
-        console.error('Error uploading images and adding object:', error);
-        toast.error('Une erreur s\'est produite lors du téléchargement des images.', {
-          position: toast.POSITION.TOP_CENTER
-        });
-      });
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    axios.post('/api/utilisateur/objets', formData)
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Vous devez être connecté pour ajouter un objet");
+      return;
+    }
+
+    const formData2 = new FormData();
+    formData2.append("nom_objet", formData.nom_objet);
+    formData2.append("cat_id", formData.cat_id);
+    formData2.append("proprietaire_id", userID);
+    formData2.append("etat", formData.etat);
+    formData2.append("prix", formData.prix);
+    formData2.append("wilaya", formData.wilaya);
+    formData2.append("description", formData.description);
+    formData2.append("objet_loue", formData.objet_loue);
+    
+    for (let i = 0; i < previewImage.length; i++) {
+      formData2.append("files", previewImage[i]);
+    }
+  
+
+    axios
+      .post("/api/utilisateur/objets", formData2, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
       .then((response) => {
-        console.log('Object added:', response.data);
-        toast.success('L\'objet a été ajouté avec succès !', {
-          position: toast.POSITION.TOP_CENTER
+        console.log("Object added:", response.data);
+        toast.success("L'objet a été ajouté avec succès !", {
+          position: toast.POSITION.TOP_CENTER,
         });
         // Réinitialiser le formulaire ou rediriger vers une autre page
       })
       .catch((error) => {
-        console.error('Error adding object:', error);
-        toast.error('Une erreur s\'est produite lors de l\'ajout de l\'objet.', {
-          position: toast.POSITION.TOP_CENTER
+        console.error("Error adding object:", error);
+        toast.error("Une erreur s'est produite lors de l'ajout de l'objet.", {
+          position: toast.POSITION.TOP_CENTER,
         });
       });
   };
@@ -99,8 +107,8 @@ const FormAjoutObjet = () => {
         </h1>
 
         <p className="mx-auto mt-4 max-w-md text-center text-gray-500">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati sunt
-          dolores deleniti inventore quaerat mollitia?
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati
+          sunt dolores deleniti inventore quaerat mollitia?
         </p>
 
         <form
@@ -110,7 +118,9 @@ const FormAjoutObjet = () => {
           <p className="text-center text-lg font-medium">Ajouter un objet</p>
 
           <div>
-            <label htmlFor="nom_objet" className="sr-only">Nom de l'objet</label>
+            <label htmlFor="nom_objet" className="sr-only">
+              Nom de l'objet
+            </label>
             <input
               type="text"
               id="nom_objet"
@@ -124,7 +134,9 @@ const FormAjoutObjet = () => {
           </div>
 
           <div>
-            <label htmlFor="cat_id" className="sr-only">Categorie</label>
+            <label htmlFor="cat_id" className="sr-only">
+              Categorie
+            </label>
             <select
               id="cat_id"
               name="cat_id"
@@ -138,14 +150,18 @@ const FormAjoutObjet = () => {
                 <option value="">Loading categories...</option>
               ) : (
                 categories.map((categorie) => (
-                  <option key={categorie._id} value={categorie._id}>{categorie.nom_cat}</option>
+                  <option key={categorie._id} value={categorie._id}>
+                    {categorie.nom_cat}
+                  </option>
                 ))
               )}
             </select>
           </div>
 
           <div>
-            <label htmlFor="etat" className="sr-only">Etat</label>
+            <label htmlFor="etat" className="sr-only">
+              Etat
+            </label>
             <select
               id="etat"
               name="etat"
@@ -162,7 +178,9 @@ const FormAjoutObjet = () => {
           </div>
 
           <div>
-            <label htmlFor="prix" className="sr-only">Prix</label>
+            <label htmlFor="prix" className="sr-only">
+              Prix
+            </label>
             <input
               type="number"
               id="prix"
@@ -176,7 +194,9 @@ const FormAjoutObjet = () => {
           </div>
 
           <div>
-            <label htmlFor="wilaya" className="sr-only">Wilaya</label>
+            <label htmlFor="wilaya" className="sr-only">
+              Wilaya
+            </label>
             <select
               id="wilaya"
               name="wilaya"
@@ -186,26 +206,18 @@ const FormAjoutObjet = () => {
               required
             >
               <option value="">Choisir la wilaya</option>
-              {[
-                "Adrar", "Chlef", "Laghouat", "Oum El Bouaghi", "Batna", "Béjaïa",
-                "Biskra", "Béchar", "Blida", "Bouira", "Tamanrasset", "Tébessa",
-                "Tlemcen", "Tiaret", "Tizi Ouzou", "Alger", "Djelfa", "Jijel",
-                "Sétif", "Saïda", "Skikda", "Sidi Bel Abbès", "Annaba", "Guelma",
-                "Constantine", "Médéa", "Mostaganem", "M'Sila", "Mascara", "Ouargla",
-                "Oran", "El Bayadh", "Illizi", "Bordj Bou Arreridj", "Boumerdès",
-                "El Tarf", "Tindouf", "Tissemsilt", "El Oued", "Khenchela",
-                "Souk Ahras", "Tipaza", "Mila", "Aïn Defla", "Naâma", "Aïn Témouchent",
-                "Ghardaïa", "Relizane", "El M'ghair", "El Menia", "Ouled Djellal",
-                "Bordj Badji Mokhtar", "Beni Abbes", "Timimoun", "Touggourt", "Djanet",
-                "In Salah", "In Guezzam"
-              ].map((wilaya) => (
-                <option key={wilaya} value={wilaya}>{wilaya}</option>
+              {["Adrar", "Chlef", "Laghouat"].map((wilaya) => (
+                <option key={wilaya} value={wilaya}>
+                  {wilaya}
+                </option>
               ))}
             </select>
           </div>
 
           <div>
-            <label htmlFor="description" className="sr-only">Description</label>
+            <label htmlFor="description" className="sr-only">
+              Description
+            </label>
             <textarea
               id="description"
               name="description"
@@ -218,17 +230,26 @@ const FormAjoutObjet = () => {
           </div>
 
           <div>
-            <label htmlFor="images" className="sr-only">Images</label>
+            <label htmlFor="images" className="sr-only">
+              Images
+            </label>
             <input
               type="file"
               id="images"
               name="images"
-              accept="image/*"
+              // accept="image/*"
               multiple
-              onChange={handleImageUpload}
+              onChange={handleFileOnChange}
               className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
               required
             />
+            {previewImage.length > 0 && (
+              <div className="w-full grid grid-cols-4">
+                {previewImage.map((f, i) => (
+                  <img src={URL.createObjectURL(f)} alt="img" key={i} />
+                ))}
+              </div>
+            )}
           </div>
 
           <button

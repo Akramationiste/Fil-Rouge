@@ -102,7 +102,7 @@ function OnQuantity() {
       >
         <Link
           className="rounded-3xl bg-secondc px-5 py-2.5 text-sm font-medium text-white shadow hover:bg-white hover:text-principal"
-          to="/Connexion"
+          to="/ObjetDetails/64bd8fe9d8895304f8f01d57"
         >
           Découvrir →
         </Link>

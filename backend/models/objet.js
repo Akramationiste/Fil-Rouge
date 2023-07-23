@@ -18,10 +18,10 @@ const ObjetSchema = new mongoose.Schema({
         ref: "categorie",
         required : true
     },
-    image: {
-        type: [String],
+    image: [{
+        type: String,
         required: true
-    },      
+    }],      
     etat: {
         type: String,
         required: true,
@@ -105,7 +105,8 @@ const ObjetSchema = new mongoose.Schema({
         required: true
     },
     objet_loue : {
-        type: Boolean
+        type: Boolean,
+        default: true
     }
 });
 

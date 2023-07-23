@@ -1,7 +1,6 @@
 import React from "react";
 import PubAccueil from "../components/Accueil/PubAccueil";
 import SwiperAccueil from "../components/Accueil/SwiperAccueil";
-import Footer from "../components/Footer/Footer";
 import HeroHome from "../components/Accueil/HeroHome";
 import Produit from "../components/Accueil/Produit";
 import OnQuantity from "../components/Accueil/OnQuantity";
@@ -20,8 +19,8 @@ function Accueil() {
       <Separateur />
       <Description />
       <Separateur />
-      {/* <SwiperAccueil />
-      <Separateur /> */}
+          {/* <SwiperAccueil />
+          <Separateur /> */}
       <Newsletter />
       <Separateur />
       <PubAccueil />

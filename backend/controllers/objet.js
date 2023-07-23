@@ -6,15 +6,17 @@ const Categorie = require('../models/categorie');
 
 //////// ajouter objet ///////////////////
 
-async function ajouterObjet(req, res) {
-  console.log(req.files);
-  const images  = req.files.map((file)=>{
-    return `./images_objets/${file.filename}`
-  });
-  console.log(images)
-  // return res.sendStatus (200)
-  const { nom_objet, cat_id, proprietaire_id, etat, prix, wilaya, description, objet_loue } = req.body;
 
+async function ajouterObjet(req, res) {
+  console.log({body:req.body});
+  console.log({files: req.files}); // The uploaded files are accessible through req.files
+  const images = req.files.map((file) => {
+    return `./images_objets/${file.filename}`;
+  });
+  console.log({images});
+
+  const { nom_objet, cat_id, proprietaire_id, etat, prix, wilaya, description, objet_loue } = req.body;
+  console.log({ nom_objet, cat_id, proprietaire_id, etat, prix, wilaya, description, objet_loue });
   try {
     const objet = new Objet({
       nom_objet,
@@ -24,9 +26,14 @@ async function ajouterObjet(req, res) {
       prix,
       wilaya,
       description,
-      image: images,
-      objet_loue
+      objet_loue,
     });
+
+    images.forEach(image => {
+      objet.image.push(image)
+    });
+
+    console.log({objet});
 
     const categorie = await Categorie.findByIdAndUpdate(
       cat_id,
@@ -77,13 +84,9 @@ async function afficherObjetFiltre(req, res) {
     if (req.query.etat) {
       filters.etat = req.query.etat;
     }
-    if (req.query.prix) {
-      filters.prix = req.query.prix;
-    }
-    if (req.query.cat_id) {
-      filters.cat_id = req.query.cat_id;
-    }
-    const objets = await Objet.find(filters).populate('cat_id');
+    // Ajouter d'autres filtres si nécessaire
+
+    const objets = await Objet.find(filters).populate("cat_id");
     res.status(200).json(objets);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -93,9 +96,27 @@ async function afficherObjetFiltre(req, res) {
 
 
 
+
 //////// afficher tous les objets ///////////////////
 
 async function afficherTousObjets(req, res){
+  try {
+    console.log(req.query)
+    const {page, limit} = req.query;
+    const count = await Objet.countDocuments();
+    const totalPages = Math.ceil(count/10);
+    if(page > totalPages){
+      page = totalPages
+    }
+      const objets = await Objet.find().limit(limit).skip(limit * (page-1));
+      res.json({objets, totalPages, page, count});
+  } catch (err) {
+      res.status(500).json({ message: err.message });
+  }
+};
+//////// afficher tous les objets por l'admin ///////////////////
+
+async function afficherTousObjetsAd(req, res){
   try {
     console.log(req.query)
     const {page, limit} = req.query;
@@ -130,6 +151,38 @@ async function afficherTousObjetsCat(req, res) {
 
     if (cat_id) {
       objets = await Objet.find({ cat_id })
+        .limit(parseInt(limit))
+        .skip(parseInt(limit) * (parseInt(page) - 1));
+    } else {
+      objets = await Objet.find()
+        .limit(parseInt(limit))
+        .skip(parseInt(limit) * (parseInt(page) - 1));
+    }
+
+    res.json({ objets, totalPages, page, count });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}
+
+
+
+///////// afficher les objets par propriétaire ////////////// 
+
+async function afficherTousObjetsUser(req, res) {
+  try {
+    const { page, limit } = req.query;
+    const proprietaire_id = req.params.id;
+    const count = proprietaire_id
+      ? await Objet.countDocuments({ proprietaire_id })
+      : await Objet.countDocuments();
+
+    const totalPages = Math.ceil(count / limit);
+
+    let objets;
+
+    if (proprietaire_id) {
+      objets = await Objet.find({ proprietaire_id })
         .limit(parseInt(limit))
         .skip(parseInt(limit) * (parseInt(page) - 1));
     } else {
@@ -184,12 +237,30 @@ async function afficherDerniersObjets(req, res) {
   }
 }
 
+
+
+//////// rechercher objet par nom ///////////////////
+
+async function rechercherObjetParNom(req, res) {
+  const { nom } = req.query;
+  try {
+    const regex = new RegExp(nom, "i"); // Expression régulière pour la recherche insensible à la casse
+    const objets = await Objet.find({ nom_objet: regex }).populate("cat_id");
+    res.status(200).json(objets);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
 module.exports = {
     ajouterObjet,
     afficherObjetFiltre,
     afficherObjet,
     afficherTousObjets,
     afficherTousObjetsCat,
+    afficherTousObjetsUser,
+    afficherTousObjetsAd,
     supprimerObjet,
-    afficherDerniersObjets
+    afficherDerniersObjets,
+    rechercherObjetParNom
 };

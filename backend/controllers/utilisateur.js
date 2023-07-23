@@ -1,5 +1,7 @@
 const Utilisateur = require('../models/utilisateur');
 const Objet = require('../models/objet');
+const Commentaire = require('../models/commentaire');
+const Categorie = require('../models/categorie');
 const mail = require("../utils/sendMail");
 const jwt = require('jsonwebtoken');
 require('dotenv').config()
@@ -28,11 +30,13 @@ const login = async (req, res) => {
   try {
     const utilisateur = await Utilisateur.login(email, password);
     const token = createToken(utilisateur._id);
-    res.status(200).json({ email, token });
+    const role = utilisateur.role; // Assuming you have a 'role' field in your User model
+    res.status(200).json({ email, token, role });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
+
 
 
 
@@ -210,6 +214,20 @@ const modifierUtilisateur = async (req, res) => {
 };
 
 
+async function Stats (req,res) {
+  try {
+    const [totalComments, totalObjets, totalUsers, totalCats] = await Promise.all([
+      Commentaire.countDocuments(),
+      Objet.countDocuments(),
+      Utilisateur.countDocuments(),
+      Categorie.countDocuments(),
+]);
+    res.status(200).json({totalComments, totalObjets, totalUsers, totalCats})
+  } catch (err) {
+    throw new Error(`Erreur lors de la récupération des statistiques : ${err.message}`);
+  }
+} 
+
 
 
 
@@ -223,5 +241,6 @@ module.exports = {
   afficherUtilisateurId,
   afficherTousUtilisateurs,
   supprimerUtilisateur,
-  modifierUtilisateur
+  modifierUtilisateur,
+  Stats
 };

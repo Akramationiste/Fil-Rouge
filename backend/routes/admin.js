@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const control1 = require('../controllers/objet');
-// const control2 = require('../controllers/categorie');
-// const control3 = require('../controllers/utilisateur');
+const control2 = require('../controllers/utilisateur');
+const control3 = require('../controllers/commentaire');
 // const control6 = require('../controllers/location');
 const authorization = require('../middlewares/authm')
 
@@ -30,8 +30,31 @@ router.put("/utilisateur/:id/status", (req, res) => {
 ////////////////////////////////////////////////////////////////////////////
 
 
+// supprimer un utilisateur 
+router.delete('/utilisateurs/:id', control2.supprimerUtilisateur);
+
+
+// afficher tous les utilisateurs 
+router.get('/utilisateurs/', control2.afficherTousUtilisateurs);
+
+
+
+////////////////////////////////////////////////////////////////////////////
+
+
+// supprimer un commentaire 
+router.delete('/commentaires/:id', control3.supprimerCommentaire);
+
+
+// afficher tous les commentaires 
+router.get('/commentaires/', control3.afficherTousCom);
+
+
+////////////////////////////////////////////////////////////////////////////
+
+
 //afficher tous les objets
-router.get('/objets', [authorization.VerifyToken , authorization.isAdmin], control1.afficherTousObjets);
+router.get('/objets', control1.afficherTousObjetsAd);
 
 
 //afficher un objet
@@ -44,6 +67,12 @@ router.post('/objets', control1.ajouterObjet);
 
 //supprimer un objet
 router.delete('/objets/:id', control1.supprimerObjet);
+
+
+////////////////////////////////////////////////////////////////////////////
+
+//afficher les statistique pour l'admin
+router.get('/Stats', control2.Stats);
 
 
 module.exports = router;

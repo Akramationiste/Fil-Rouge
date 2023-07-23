@@ -22,13 +22,19 @@ function FormConnexion() {
     e.preventDefault();
     try {
       const response = await axios.post("/auth/login", formData);
-      const { email, token } = response.data;
-      console.log("Connexion réussie !", email, token);
+      const { email, token, role } = response.data;
+      console.log("Connexion réussie !", email, token, role);
       localStorage.token = token;
-      // navigate("/");
-      window.location.href = "/";
 
-      // Effectuez ici les actions appropriées après une connexion réussie
+      if (role === "user") {
+        // Redirect to "/"
+        window.location.href = "/";
+      } else if (role === "admin") {
+        // Redirect to "/Dashboard"
+        window.location.href = "/Dashboard";
+      } else {
+        // Handle other roles if needed
+      }
     } catch (error) {
       console.error("Erreur lors de la connexion :", error);
       notify(error.response.data.error);

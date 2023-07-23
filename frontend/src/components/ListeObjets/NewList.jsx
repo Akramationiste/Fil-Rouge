@@ -52,72 +52,83 @@ function NewList() {
 
   return (
     <div>
-      <h1 className="text-2xl sm:text-3xl mt-16 md:text-4xl font-semibold lg:text-5xl text-center">
-        Tous les objets
-      </h1>
+      {" "}
+      <div className="flex justify-center mt-16">
+        <Link
+          to="/AjouterObjet"
+          className="px-8 py-4 bg-principal text-white font-medium rounded-3xl shadow-md hover:bg-secondc"
+        >
+          Ajouter un nouvel objet
+        </Link>
+      </div>{" "}
+      <div>
+        <h1 className="text-2xl sm:text-3xl mt-10 md:text-4xl font-semibold lg:text-5xl text-center">
+          Tous les objets
+        </h1>
 
-      <div className="divider"></div>
-      <div className="px-4 py-16 mx-auto sm:max-w-xl rounded-3xl lg:max-w-screen-xl">
-        <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {objets &&
-            objets.map((objet) => (
-              <Link
-                to={`/ObjetDetails/${objet._id}`} // Passer l'ID de l'objet comme paramètre d'URL
-                className="group relative rounded-3xl block bg-black overflow-hidden hover:opacity-80"
-                key={objet._id}
-              >
-                <img
-                  alt="Objet"
-                  src={`http://localhost:3000${objet.image[0].replace(
-                    ".",
-                    ""
-                  )}`}
-                  className="absolute inset-0 h-full rounded-3xl w-full object-cover opacity-75 transition-opacity group-hover:opacity-50"
-                />
+        <div className="divider"></div>
+        <div className="px-4 py-16 mx-auto sm:max-w-xl rounded-3xl lg:max-w-screen-xl">
+          <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {objets &&
+              objets.map((objet) => (
+                <Link
+                  to={`/ObjetDetails/${objet._id}`} // Passer l'ID de l'objet comme paramètre d'URL
+                  className="group relative rounded-3xl block bg-black overflow-hidden hover:opacity-80"
+                  key={objet._id}
+                >
+                  <img
+                    alt="Objet"
+                    src={`http://localhost:3000${objet?.image[0]?.replace(
+                      ".",
+                      ""
+                    )}`}
+                    className="absolute inset-0 h-full rounded-3xl w-full object-cover opacity-75 transition-opacity group-hover:opacity-50"
+                  />
 
-                <div className="relative p-4 sm:p-6 lg:p-8">
-                  <p className="text-sm font-medium uppercase tracking-widest text-secondc">
-                    {objet.prix} DA/h
-                  </p>
+                  <div className="relative p-4 sm:p-6 lg:p-8">
+                    <p className="text-sm font-medium uppercase tracking-widest text-secondc">
+                      {objet.prix} DA/h
+                    </p>
 
-                  <p className="text-xl font-bold text-white sm:text-2xl">
-                    {objet.nom_objet}
-                  </p>
+                    <p className="text-xl font-bold text-white sm:text-2xl">
+                      {objet.nom_objet}
+                    </p>
 
-                  <div className="mt-32 sm:mt-48 lg:mt-64">
-                    <div className="translate-y-8 transform opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100">
-                      <p className="text-sm text-white line-clamp-3">
-                        {objet.description}
-                      </p>
+                    <div className="mt-32 sm:mt-48 lg:mt-64">
+                      <div className="translate-y-8 transform opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100">
+                        <p className="text-sm text-white line-clamp-3">
+                          {objet.description}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Link>
-            ))}
-        </div>
-        <div className="mt-8 flex justify-center">
+                </Link>
+              ))}
+          </div>
           <div className="mt-8 flex justify-center">
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
-            <Pagination
-              page={currentPage}
-              pages={totalPages}
-              changePage={handlePageChange}
-            >
-              <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                Showing
-                <span className="font-semibold text-gray-900 dark:text-white mx-1">
-                  {objets?.length}
+            <div className="mt-8 flex justify-center">
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+              <Pagination
+                page={currentPage}
+                pages={totalPages}
+                changePage={handlePageChange}
+              >
+                <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+                  Affichées
+                  <span className="font-semibold text-gray-900 dark:text-white mx-1">
+                    {objets?.length}
+                  </span>
+                  sur
+                  <span className="font-semibold text-gray-900 dark:text-white mx-1">
+                    {documentCount}
+                  </span>
                 </span>
-                of
-                <span className="font-semibold text-gray-900 dark:text-white mx-1">
-                  {documentCount}
-                </span>
-              </span>
-            </Pagination>
+              </Pagination>
+            </div>
           </div>
         </div>
       </div>
