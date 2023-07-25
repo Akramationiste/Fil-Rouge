@@ -39,8 +39,8 @@ function NewList() {
 
       console.log(response.data);
       setDocumentcount(response.data.count);
-      setObjets(response.data.objets); // Utilisation de response.data.objets pour extraire les objets
-      setTotalPages(response.data.totalPages); // Utilisation de response.data.totalPages pour extraire le nombre total de pages
+      setObjets(response.data.objets);
+      setTotalPages(response.data.totalPages); 
     } catch (error) {
       console.error(error);
     }
