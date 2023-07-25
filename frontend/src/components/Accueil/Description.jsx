@@ -29,7 +29,7 @@ function Description() {
         setIsVisible(false);
       }
     };
-    handleScroll(); // Déclencher la fonction lors du montage initial
+    handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);

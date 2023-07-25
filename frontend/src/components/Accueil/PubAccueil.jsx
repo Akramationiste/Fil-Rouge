@@ -1,42 +1,44 @@
-import React from 'react'
+import React from "react";
 
 function PubAccueil() {
   return (
     <div>
-        <section className="overflow-hidden rounded-lg mt-4 mb-4 mr-8 ml-8 shadow-2xl md:grid md:grid-cols-3">
-  <img
-    alt="Trainer"
-    src="https://images.unsplash.com/photo-1611510338559-2f463335092c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80"
-    className="h-32 w-full object-cover md:h-full"
-  />
+      <section className="overflow-hidden rounded-lg mt-4 mb-4 mr-8 ml-8 shadow-2xl md:grid md:grid-cols-3">
+        <img
+          alt="Trainer"
+          src="https://images.unsplash.com/photo-1611510338559-2f463335092c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80"
+          className="h-32 w-full object-cover md:h-full"
+        />
 
-  <div className="p-4 text-center sm:p-6 md:col-span-2 lg:p-8">
-    <p className="text-sm font-semibold uppercase tracking-widest">
-      Run with the pack
-    </p>
+        <div className="p-4 text-center sm:p-6 md:col-span-2 lg:p-8">
+          <p className="text-sm font-semibold uppercase tracking-widest">
+            Run with the pack
+          </p>
 
-    <h2 className="mt-6 font-black uppercase">
-      <span className="text-4xl font-black sm:text-5xl lg:text-6xl">
-        Get 20% off
-      </span>
+          <h2 className="mt-6 font-black uppercase">
+            <span className="text-4xl font-black sm:text-5xl lg:text-6xl">
+              Get 20% off
+            </span>
 
-      <span className="mt-2 block text-sm">On your next order over $50</span>
-    </h2>
+            <span className="mt-2 block text-sm">
+              On your next order over $50
+            </span>
+          </h2>
 
-    <a
-      className="mt-8 inline-block w-full bg-black py-4 text-sm font-bold uppercase tracking-widest text-white"
-      href=""
-    >
-      Get Discount
-    </a>
+          <a
+            className="mt-8 inline-block w-full bg-black py-4 text-sm font-bold uppercase tracking-widest text-white"
+            href=""
+          >
+            Get Discount
+          </a>
 
-    <p className="mt-8 text-xs font-medium uppercase text-gray-400">
-      Offer valid until 24th March, 2021 *
-    </p>
-  </div>
-</section>
+          <p className="mt-8 text-xs font-medium uppercase text-gray-400">
+            Offer valid until 24th March, 2021 *
+          </p>
+        </div>
+      </section>
     </div>
-  )
+  );
 }
 
-export default PubAccueil
+export default PubAccueil;

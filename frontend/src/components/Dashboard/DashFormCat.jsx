@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from '../../api/axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const DashFormCat = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     nom_cat: '',
     desc_cat: '',
@@ -30,7 +32,7 @@ const DashFormCat = () => {
         toast.success('La catégorie a été ajoutée avec succès !', {
           position: toast.POSITION.TOP_RIGHT
         });
-        // Réinitialiser le formulaire ou rediriger vers une autre page
+        navigate('/Dashboard/Categories');
       })
       .catch((error) => {
         console.error('Erreur lors de l\'ajout de la catégorie:', error);

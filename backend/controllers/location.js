@@ -22,16 +22,6 @@ async function ajouterLocation(req, res) {
       return res.status(400).json({ message: "Cet Objet n'est plus disponible" });
     }
 
-    // const lastEmprunts = await Emprunt.find({
-    //   user_id: req.body.user_id,
-      // date_emprunt: { $gte: new Date(new Date() - 30 * 24 * 60 * 60 * 1000) },
-      // date_retour: null
-    // });
-
-    // if (lastEmprunts.length >= 3) {
-    //   return res.status(400).json({ message: "Vous avez atteint votre limite d'emprunts" });
-    // }
-
 const location = new Location({
   user_id: req.body.user_id,
   objet_id: req.body.objet_id,
@@ -55,7 +45,6 @@ res.status(201).json({ message: "Location ajoutée avec succès", location, date
 
 
 
-
 ///////// RENOUVELLEMENT ////////////////////////////
 
 
@@ -63,14 +52,14 @@ res.status(201).json({ message: "Location ajoutée avec succès", location, date
 async function renouvelerLocation(req,res) {
   try {
     const {id} = req.params
-    const location = await LocationrenouvelerLocation.findById(id);
+    const location = await Location.findById(id);
 
     if (!location) {
-      throw new Error('LocationrenouvelerLocation non trouvé');
+      throw new Error('Location non trouvé');
     }
 
     if (location.date_retour <= new Date()) {
-      throw new Error('LocationrenouvelerLocation en retard, pénalité de suspension de 10 jours appliquée');
+      throw new Error('Location en retard, pénalité de suspension de 10 jours appliquée');
     }
 
     const joursSupplementaires = 7;

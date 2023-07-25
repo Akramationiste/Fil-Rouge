@@ -3,7 +3,7 @@ const router = express.Router();
 const control1 = require('../controllers/objet');
 const control2 = require('../controllers/utilisateur');
 const control3 = require('../controllers/commentaire');
-// const control6 = require('../controllers/location');
+const control4 = require('../controllers/categorie');
 const authorization = require('../middlewares/authm')
 
 
@@ -25,6 +25,22 @@ router.put("/utilisateur/:id/status", (req, res) => {
         }
     });
 });
+
+
+////////////////////////////////////////////////////////////////////////////
+
+
+
+
+// Afficher toutes les catégories
+router.get('/categories', control4.afficherToutesCat);
+
+// Supprimer une catégorie
+router.delete('/categories/:id', control4.supprimerCategorie);
+
+// Modifier une catégorie
+router.patch('/categories/:id', control4.modifierCategorie);
+
 
 
 ////////////////////////////////////////////////////////////////////////////

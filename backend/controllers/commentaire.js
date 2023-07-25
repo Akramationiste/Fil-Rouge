@@ -3,9 +3,11 @@ const Objet = require('../models/objet');
 const Utilisateur = require('../models/utilisateur');
 
 
+
+//////// Ajouter un commentaire //////////////////////
+
 async function ajouterCommentaire(req, res) {
     const { user_id, objet_id, comment } = req.body;
-    // console.log(req.body)
     try {
       // Vérifier si l'utilisateur existe
       const utilisateurExiste = await Utilisateur.exists({ _id: user_id });
@@ -14,20 +16,6 @@ async function ajouterCommentaire(req, res) {
       }
   
       const commentaire =  await Commentaire.create({ user_id, objet_id, comment });
-      // await commentaire.save();
-  
-      // Supprimer le commentaire si l'objet commenté est supprimé
-      // try {
-      //   const objet = await Objet.findById(objet_id);
-      //   if (!objet) {
-      //     await Commentaire.deleteOne({ _id: commentaire._id });
-      //     console.log(`Commentaire avec l'id ${commentaire._id} supprimé car l'objet associé est introuvable`);
-      //   }
-      //   res.status(200).send("Commentaire ajouté avec succès");
-      // } catch (err) {
-      //   console.log(err.message);
-      //   res.status(500).send("Erreur lors de l'ajout du commentaire");
-      // }
       res.sendStatus(200)
     } catch (err) {
       console.log(err.message);
@@ -37,10 +25,8 @@ async function ajouterCommentaire(req, res) {
   
 
 
-
-
-
 ////////////afficher un commentaire/////////////////:
+
 async function afficherCommentaire(req, res){
     let commentaire
     try{
@@ -56,7 +42,8 @@ async function afficherCommentaire(req, res){
 
 
 
-// Fonction pour afficher tous les commentaires
+// Fonction pour afficher tous les commentaires ////////////////////////
+
 const afficherTousCom = async (req, res) => {
   try {
     const commentaires = await Commentaire.find();
@@ -67,7 +54,8 @@ const afficherTousCom = async (req, res) => {
 };
 
 
-// Fonction pour afficher tous les commentaires (objet)
+// Fonction pour afficher tous les commentaires (objet) ////////////////////
+
 const afficherTousComId = async (req, res) => {
   try {
 

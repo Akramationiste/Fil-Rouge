@@ -25,20 +25,21 @@ function FormConnexion() {
       const { email, token, role } = response.data;
       console.log("Connexion réussie !", email, token, role);
       localStorage.token = token;
+      localStorage.role = role;
+      localStorage.email = email;
 
       if (role === "user") {
-        // Redirect to "/"
+
         window.location.href = "/";
       } else if (role === "admin") {
-        // Redirect to "/Dashboard"
+
         window.location.href = "/Dashboard";
       } else {
-        // Handle other roles if needed
+
       }
     } catch (error) {
       console.error("Erreur lors de la connexion :", error);
       notify(error.response.data.error);
-      // Gérez les erreurs de connexion ici
     }
   };
 
@@ -49,7 +50,7 @@ function FormConnexion() {
         <div className="w-full px-4 py-12 sm:px-6 sm:py-16 lg:w-1/2 lg:px-8 lg:py-24">
           <div className="mx-auto max-w-lg text-center">
             <h1 className="text-2xl font-bold font-aleo sm:text-3xl">
-              Get started today!
+              Connectez-vous !
             </h1>
 
             <p className="mt-4 text-gray-500">
@@ -96,13 +97,13 @@ function FormConnexion() {
               </div>
             </div>
 
-
-
-            <div  className="flex items-center justify-between">
-            <p className="text-sm text-gray-500">
-          Vous n'avez pas un compte ?
-          <Link className="underline" to="/Inscription">Inscrivez-vous</Link>
-        </p>
+            <div className="flex items-center justify-between">
+              <p className="text-sm text-gray-500">
+                Vous n'avez pas un compte ?
+                <Link className="underline" to="/Inscription">
+                  Inscrivez-vous
+                </Link>
+              </p>
               <button
                 type="submit"
                 className="rounded-3xl bg-principal px-5 py-2.5 text-sm font-medium text-white shadow hover:bg-secondc"
@@ -111,10 +112,12 @@ function FormConnexion() {
               </button>
             </div>
             <div>
-            <p className="text-sm text-gray-500">
-          Mot de passe oublié ?
-          <Link className="underline text-secondc" to="/MdpOublie">Cliquez ici</Link>
-        </p>
+              <p className="text-sm text-gray-500">
+                Mot de passe oublié ?
+                <Link className="underline text-secondc" to="/MdpOublie">
+                  Cliquez ici
+                </Link>
+              </p>
             </div>
           </form>
         </div>

@@ -13,17 +13,17 @@ function DashCatList() {
 
   async function fetchCategories() {
     try {
-      const response = await axios.get("/api/utilisateur/categories");
+      const response = await axios.get("/api/admin/categories");
       setCategories(response.data);
     } catch (error) {
       console.log(error);
     }
   }
 
-  const isAdmin = true; // Remplacez cela par la logique pour vérifier si l'utilisateur a le rôle "admin"
+  const isAdmin = true;
 
   const handleEdit = (categorie) => {
-    // Afficher un prompt pour modifier le nom et la description de la catégorie
+
     const newCategorieName = prompt(
       "Entrez le nouveau nom de la catégorie :",
       categorie.nom_cat
@@ -34,10 +34,8 @@ function DashCatList() {
     );
 
     if (newCategorieName !== null && newCategorieDesc !== null) {
-      // L'utilisateur a cliqué sur "OK" dans le prompt
-      // Effectuer l'appel API pour mettre à jour la catégorie
       axios
-        .patch(`/api/utilisateur/categories/${categorie._id}`, {
+        .patch(`/api/admin/categories/${categorie._id}`, {
           nom_cat: newCategorieName,
           desc_cat: newCategorieDesc,
           nbr_objets: categorie.nbr_objets,
@@ -74,9 +72,8 @@ function DashCatList() {
       window.confirm("Êtes-vous sûr de vouloir supprimer cette catégorie ?")
     ) {
       // L'utilisateur a cliqué sur "OK" dans l'alerte
-      // Effectuer l'appel API pour supprimer la catégorie
       axios
-        .delete(`/api/utilisateur/categories/${categorie._id}`)
+        .delete(`/api/admin/categories/${categorie._id}`)
         .then((response) => {
           // Retirer la catégorie de l'état
           setCategories((prevCategories) =>

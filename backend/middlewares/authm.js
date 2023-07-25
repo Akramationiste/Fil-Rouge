@@ -1,6 +1,9 @@
 const jwt = require('jsonwebtoken');
 const Utilisateur = require('../models/utilisateur');
 
+
+//////// protection de l'utilisateur /////////
+
 async function VerifyToken(req, res, next) {
   const { authorization } = req.headers;
 
@@ -27,6 +30,10 @@ async function VerifyToken(req, res, next) {
     res.status(400).json({ error: 'Invalid token' });
   }
 }
+
+
+
+//////// protection de l'admin /////////
 
 async function isAdmin(req, res, next) {
   if (!req.utilisateur) {

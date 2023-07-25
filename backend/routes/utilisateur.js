@@ -15,6 +15,7 @@ const path = require('path');
 
 
 
+//////////////configuration multer ////////////////
 
 const upload = multer({
   storage: multer.diskStorage({
@@ -48,7 +49,10 @@ router.delete('/utilisateurs/:id', control0.supprimerUtilisateur);
 router.patch('/utilisateurs/:id', control0.modifierUtilisateur);
 
 
+
 ////////////////////////////////////////////////////////////////////////
+
+
 
 // Ajouter un objet
 router.post('/objets', upload.array('files', 4), control1.ajouterObjet);
@@ -74,8 +78,12 @@ router.delete('/objets/:id', control1.supprimerObjet);
 // Afficher les deux derniers objets ajoutés
 router.get('/derniersObjets', control1.afficherDerniersObjets);
 
+// Cette route récupère les objets de l'utilisateur par son ID (proprietaire_id)
+router.get("/ob/:id", control1.afficherTousObjetsUser);
 
 
+
+//////////////////////////////////////////////////////////
 
 
 
@@ -99,11 +107,7 @@ router.patch('/categories/:id', control2.modifierCategorie);
 
 
 
-
-
-
-
-///////// Récupérez uniquement le champ 'nom_cat'
+///////// Récupérez uniquement le champ 'nom_cat'////////////////////
 
 
 router.get('/nomCategories', async (req, res) => {
@@ -115,6 +119,9 @@ router.get('/nomCategories', async (req, res) => {
     }
   });
 
+
+
+/////////////////////////////////////////////////////////////////////////
 
 
 
@@ -138,6 +145,9 @@ router.patch('/commentaires/:id', control4.modifierCommentaire);
 
 
 
+/////////////////////////////////////////////////////////////////////////
+
+
 
 
 // Afficher une réponse
@@ -154,12 +164,15 @@ router.patch('/reponses/:id', control5.modifierReponse);
 
 
 
+/////////////////////////////////////////////////////////////////////////
+
 
 
 // Afficher l'historique
 router.get('/locations_histo/:id', control6.voirHistorique);
 
 
+/////////////////////////////////////////////////////////////////////////
 
 
 
@@ -171,6 +184,7 @@ router.post('/renouveler_locations/:id', [authorization.VerifyToken], control6.r
 
 
 
+/////////////////////////////////////////////////////////////////////////
 
 
 // La recherche 

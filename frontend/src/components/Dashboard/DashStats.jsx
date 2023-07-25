@@ -30,50 +30,50 @@ function DashStats() {
   return (
     <div className="my-40">
       <div className="grid h-20 card bg-base-300 rounded-box place-items-center">
-        <h1 className="text-2xl sm:text-3xl mb-10 md:text-4xl font-semibold lg:text-5xl text-principal text-center">
+        <h1 className="text-3xl sm:text-4xl mb-10 md:text-5xl font-semibold lg:text-6xl text-principal text-center">
           Statistiques
         </h1>
       </div>
       <section className="p-6 dark:bg-gray-800 dark:text-gray-100">
-        <div className="container mx-auto grid justify-center grid-cols-2 text-center lg:grid-cols-3">
+        <div className="container mx-auto grid justify-center grid-cols-1 lg:grid-cols-3 gap-6">
           <motion.div
-            className="flex flex-col justify-start m-2 lg:m-6"
+            className="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center"
             variants={statVariants}
             initial="hidden"
             animate="visible"
             transition={{ duration: 0.5 }}
           >
-            <motion.p className="text-4xl text-secondc font-bold leadi lg:text-6xl">
+            <motion.p className="text-4xl text-secondc font-bold leading-tight lg:text-6xl">
               {statistics.totalUsers}
             </motion.p>
             <p className="text-sm sm:text-base">Users</p>
           </motion.div>
           <motion.div
-            className="flex flex-col justify-start m-2 lg:m-6"
+            className="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center"
             variants={statVariants}
             initial="hidden"
             animate="visible"
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <motion.p className="text-4xl text-secondc font-bold leadi lg:text-6xl">
+            <motion.p className="text-4xl text-secondc font-bold leading-tight lg:text-6xl">
               {statistics.totalCats}
             </motion.p>
             <p className="text-sm sm:text-base">Categories</p>
           </motion.div>
           <motion.div
-            className="flex flex-col justify-start m-2 lg:m-6"
+            className="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center"
             variants={statVariants}
             initial="hidden"
             animate="visible"
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <motion.p className="text-4xl text-secondc font-bold leadi lg:text-6xl">
+            <motion.p className="text-4xl text-secondc font-bold leading-tight lg:text-6xl">
               {statistics.totalObjets}
             </motion.p>
             <p className="text-sm sm:text-base">Objects</p>
           </motion.div>
           <motion.div
-            className="flex flex-col justify-start m-2 lg:m-6"
+            className="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center"
             variants={statVariants}
             initial="hidden"
             animate="visible"
@@ -82,19 +82,19 @@ function DashStats() {
             {/* Leave this div empty to create spacing */}
           </motion.div>
           <motion.div
-            className="flex flex-col justify-center m-2 lg:m-6"
+            className="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center"
             variants={statVariants}
             initial="hidden"
             animate="visible"
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <motion.p className="text-4xl text-secondc font-bold leadi lg:text-6xl">
+            <motion.p className="text-4xl text-secondc font-bold leading-tight lg:text-6xl">
               {statistics.totalComments}
             </motion.p>
             <p className="text-sm sm:text-base">Comments</p>
           </motion.div>
           <motion.div
-            className="flex flex-col justify-start m-2 lg:m-6"
+            className="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center"
             variants={statVariants}
             initial="hidden"
             animate="visible"

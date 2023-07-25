@@ -14,6 +14,7 @@ require('dotenv').config()
 
 
 // Cette fonction crée un jeton JWT pour un ID utilisateur donné
+
 const createToken = (_id) => {
   console.log({_id,env: process.env.SECRET});
   return jwt.sign({ _id }, process.env.SECRET, { expiresIn: '3d' });
@@ -25,12 +26,13 @@ const createToken = (_id) => {
 
 
 // Fonction de connexion
+
 const login = async (req, res) => {
   const { email, password } = req.body;
   try {
     const utilisateur = await Utilisateur.login(email, password);
     const token = createToken(utilisateur._id);
-    const role = utilisateur.role; // Assuming you have a 'role' field in your User model
+    const role = utilisateur.role;
     res.status(200).json({ email, token, role });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -45,6 +47,7 @@ const login = async (req, res) => {
 
 
 // Fonction d'inscription
+
 const register = async (req, res) => {
   const { nom, age, mobile, adresse, email, password } = req.body;
   try {
@@ -68,6 +71,7 @@ const register = async (req, res) => {
 
 
 // Fonction d'approbation du compte utilisateur
+
 const approuverCompte = async (req, res) => {
   const id = req.params.id;
   try {
@@ -75,9 +79,6 @@ const approuverCompte = async (req, res) => {
     if (!utilisateur) {
       return res.status(404).json({ message: 'Utilisateur non trouvé' });
     }
-    // if (utilisateur.isActive === true) {
-    //   return res.status(200).json({ message: 'Compte déjà approuvé' });
-    // }
     res.status(200).json({ message: 'Compte approuvé avec succès' });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -90,7 +91,8 @@ const approuverCompte = async (req, res) => {
 
 
 
-// Fonction d'approbation de l'objet
+// Fonction d'approbation de l'objet 
+
 const approuverObjet = async (req, res) => {
   const id = req.params.id;
   try {
@@ -98,9 +100,6 @@ const approuverObjet = async (req, res) => {
     if (!objet) {
       return res.status(404).json({ message: 'Objet non trouvé' });
     }
-    // if (objet.isActive === true) {
-    //   return res.status(200).json({ message: 'Poste déjà approuvé' });
-    // }
     res.status(200).json({ message: 'Poste approuvé avec succès' });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -167,6 +166,7 @@ const afficherUtilisateurId = async (req, res) => {
 
 
 // Fonction pour afficher tous les utilisateurs
+
 const afficherTousUtilisateurs = async (req, res) => {
   try {
     const utilisateurs = await Utilisateur.find();
@@ -182,6 +182,7 @@ const afficherTousUtilisateurs = async (req, res) => {
 
 
 // Fonction pour supprimer un utilisateur
+
 const supprimerUtilisateur = async (req, res) => {
   try {
     const utilisateurSupprime = await Utilisateur.findByIdAndRemove(req.params.id);
@@ -199,6 +200,7 @@ const supprimerUtilisateur = async (req, res) => {
 
 
 // Fonction pour modifier un utilisateur
+
 const modifierUtilisateur = async (req, res) => {
   try {
     const utilisateurModifie = await Utilisateur.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -213,6 +215,10 @@ const modifierUtilisateur = async (req, res) => {
   }
 };
 
+
+
+
+// fnction d'affichage des statistiques pour l'admin //////////////
 
 async function Stats (req,res) {
   try {

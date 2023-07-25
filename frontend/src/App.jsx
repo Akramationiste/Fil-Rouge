@@ -14,6 +14,7 @@ import SurNous from "./pages/SurNous";
 import FAQs from "./pages/FAQs";
 import MdpOublie from "./pages/MdpOublie";
 import AjouterObjet from "./pages/AjouterObjet";
+import MesObjets from "./pages/MesObjets";
 
 import {
   createBrowserRouter,
@@ -49,6 +50,7 @@ const router = createBrowserRouter(
         <Route path="/FAQs" element={<FAQs />} />
         <Route path="/MdpOublie" element={<MdpOublie />} />
         <Route path="/AjouterObjet" element={<AjouterObjet />} />
+        <Route path="/MesObjets" element={<MesObjets/>} />
       </Route>{" "}
       <Route path="/Dashboard" element={<DashLayout />}>
         <Route index element={<DashAccueil />} />

@@ -4,6 +4,7 @@ import axios from '../../api/axios';
 import avatar from "../../assets/Profil/profil.json";
 import jwt_decode from "jwt-decode";
 import useUserId from '../../hooks/useUserId';
+import { Link } from 'react-router-dom';
 
 function CardProfil() {
   const [utilisateur, setUtilisateur] = useState(null);
@@ -139,13 +140,13 @@ function CardProfil() {
               {userID === utilisateur._id && (
                 <>
                   <button
-                    className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-3xl"
+                    className="bg-principal hover:bg-blue-900 text-white font-semibold py-2 px-4 rounded-3xl"
                     onClick={handleEdit}
                   >
                     Modifier
                   </button>
                   <button
-                    className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-3xl"
+                    className="bg-secondc hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-3xl"
                     onClick={handleDelete}
                   >
                     Supprimer
@@ -154,9 +155,10 @@ function CardProfil() {
               )}
             </div>
             <div>
-              <button className="bg-principal hover:bg-secondc text-white font-semibold py-2 px-4 rounded-3xl">
+              <Link to={"/MesObjets"}>
+              <button className="bg-gray-100 hover:bg-gray-200 text-principal font-semibold py-2 px-4 rounded-3xl">
                 Mes objets
-              </button>
+              </button></Link>
             </div>
           </div>
         </form>

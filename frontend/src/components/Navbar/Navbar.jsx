@@ -53,10 +53,10 @@ export default function Navbar() {
       if (response.status === 200) {
         setSearchResults(response.data);
       } else {
-        // Gérer les erreurs si nécessaire
+
       }
     } catch (error) {
-      // Gérer les erreurs si nécessaire
+
     }
   };
 
@@ -71,10 +71,8 @@ export default function Navbar() {
       if (response.status === 200) {
         setSearchResults(response.data);
       } else {
-        // Gérer les erreurs si nécessaire
       }
     } catch (error) {
-      // Gérer les erreurs si nécessaire
     }
   };
 
@@ -261,7 +259,7 @@ export default function Navbar() {
         </nav>
       )}
 
-<div className="bg-white">
+<div className="bg-white mt-3">
         <div className="mx-auto max-w-screen-xl mb-5 px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-center">
             {/* Barre de recherche */}
@@ -271,7 +269,7 @@ export default function Navbar() {
                 value={searchQuery}
                 onChange={handleChange}
                 placeholder="Rechercher des objets.."
-                className="rounded-l-3xl bg-gray-200 px-2 sm:text-sm text-base py-1 sm:px-4 sm:py-2 w-40 sm:w-64 focus:outline-none"
+                className="rounded-l-3xl bg-gray-100 px-2 sm:text-sm text-base py-1 sm:px-4 sm:py-2 w-40 sm:w-64 focus:outline-none"
               />
               <button
                 type="submit"

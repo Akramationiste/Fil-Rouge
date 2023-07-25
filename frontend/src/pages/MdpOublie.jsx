@@ -4,7 +4,6 @@ import RecupMdp from '../components/MdpOublie/RecupMdp'
 function MdpOublie() {
   return (
     <div>
-        
         <RecupMdp/>
     </div>
   )

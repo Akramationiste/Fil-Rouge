@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from '../../api/axios';
-import { motion, useViewportScroll, useTransform } from 'framer-motion';
+import axios from "../../api/axios";
+import { motion, useViewportScroll, useTransform } from "framer-motion";
 
 function Produit() {
   const [isVisible, setIsVisible] = useState(false);
@@ -18,7 +18,7 @@ function Produit() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/utilisateur/derniersObjets');
+        const response = await axios.get("/api/utilisateur/derniersObjets");
         setDerniersObjets(response.data);
       } catch (error) {
         console.log(error);
@@ -28,19 +28,22 @@ function Produit() {
     const handleScroll = () => {
       const scrollPosition = window.scrollY + window.innerHeight;
       const isScrollingDown = scrollY.get() > scrollY.getPrevious();
-      if ((isScrollingDown && scrollPosition > sectionTop.current) || (!isScrollingDown && scrollPosition >= sectionTop.current)) {
+      if (
+        (isScrollingDown && scrollPosition > sectionTop.current) ||
+        (!isScrollingDown && scrollPosition >= sectionTop.current)
+      ) {
         setIsVisible(true);
       } else {
         setIsVisible(false);
       }
     };
 
-    fetchData(); // Appel de la fonction pour récupérer les deux derniers objets lors du montage initial
-    handleScroll(); // Déclencher la fonction lors du montage initial
-    window.addEventListener('scroll', handleScroll);
+    fetchData();
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -63,11 +66,13 @@ function Produit() {
             >
               <div className="max-w-md mx-auto text-center lg:text-left">
                 <header>
-                  <h2 className="text-xl font-bold text-white sm:text-3xl">Nouveautés</h2>
+                  <h2 className="text-xl font-bold text-white sm:text-3xl">
+                    Nouveautés
+                  </h2>
 
                   <p className="mt-4 text-white">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas rerum quam amet provident nulla
-                    error!
+                    De nouveaux objets sont ajoutés à FabriKri tous les jours, cliquez
+                     sur voir plus pour découvrir ce que nos utilisateurs ont ajouté !
                   </p>
                 </header>
 
@@ -86,15 +91,27 @@ function Produit() {
                   <motion.li
                     key={objet._id}
                     initial={{ opacity: 0, y: 20 }}
-                    animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                    animate={
+                      isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
+                    }
                     transition={{ duration: 0.6, delay: 0.2 }}
                   >
-                    <Link to={`/ObjetDetails/${objet._id}`} className="block group">
+                    <Link
+                      to={`/ObjetDetails/${objet._id}`}
+                      className="block group"
+                    >
                       <motion.img
                         initial={{ opacity: 0, scale: 0.8 }}
-                        animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+                        animate={
+                          isVisible
+                            ? { opacity: 1, scale: 1 }
+                            : { opacity: 0, scale: 0.8 }
+                        }
                         transition={{ duration: 0.6, delay: 0.4 }}
-                        src={`http://localhost:3000${objet.image[0].replace(".", "")}`}
+                        src={`http://localhost:3000${objet.image[0].replace(
+                          ".",
+                          ""
+                        )}`}
                         alt={objet.nom_objet}
                         className="object-cover w-full rounded-3xl aspect-square"
                       />
@@ -104,7 +121,9 @@ function Produit() {
                           {objet.nom_objet}
                         </h3>
 
-                        <p className="mt-1 text-sm text-gray-700">{objet.prix} DA</p>
+                        <p className="mt-1 text-sm text-gray-700">
+                          {objet.prix} DA
+                        </p>
                       </div>
                     </Link>
                   </motion.li>

@@ -1,6 +1,5 @@
 const Objet = require('../models/objet');
 const Categorie = require('../models/categorie');
-// const multer = require ('multer');
 
 
 
@@ -9,7 +8,7 @@ const Categorie = require('../models/categorie');
 
 async function ajouterObjet(req, res) {
   console.log({body:req.body});
-  console.log({files: req.files}); // The uploaded files are accessible through req.files
+  console.log({files: req.files}); 
   const images = req.files.map((file) => {
     return `./images_objets/${file.filename}`;
   });
@@ -84,7 +83,6 @@ async function afficherObjetFiltre(req, res) {
     if (req.query.etat) {
       filters.etat = req.query.etat;
     }
-    // Ajouter d'autres filtres si nécessaire
 
     const objets = await Objet.find(filters).populate("cat_id");
     res.status(200).json(objets);
@@ -114,6 +112,9 @@ async function afficherTousObjets(req, res){
       res.status(500).json({ message: err.message });
   }
 };
+
+
+
 //////// afficher tous les objets por l'admin ///////////////////
 
 async function afficherTousObjetsAd(req, res){
@@ -170,26 +171,18 @@ async function afficherTousObjetsCat(req, res) {
 ///////// afficher les objets par propriétaire ////////////// 
 
 async function afficherTousObjetsUser(req, res) {
+  console.log(req.params.id);
   try {
     const { page, limit } = req.query;
     const proprietaire_id = req.params.id;
-    const count = proprietaire_id
-      ? await Objet.countDocuments({ proprietaire_id })
-      : await Objet.countDocuments();
+    const count = await Objet.countDocuments({ proprietaire_id });
+  
 
     const totalPages = Math.ceil(count / limit);
 
-    let objets;
-
-    if (proprietaire_id) {
-      objets = await Objet.find({ proprietaire_id })
-        .limit(parseInt(limit))
-        .skip(parseInt(limit) * (parseInt(page) - 1));
-    } else {
-      objets = await Objet.find()
-        .limit(parseInt(limit))
-        .skip(parseInt(limit) * (parseInt(page) - 1));
-    }
+    const objets = await Objet.find({ proprietaire_id })
+      .limit(parseInt(limit))
+      .skip(parseInt(limit) * (parseInt(page) - 1));
 
     res.json({ objets, totalPages, page, count });
   } catch (err) {
@@ -228,8 +221,8 @@ async function supprimerObjet(req, res) {
 async function afficherDerniersObjets(req, res) {
   try {
     const objets = await Objet.find()
-      .sort({ _id: -1 }) // Tri par ordre décroissant de l'ID
-      .limit(2); // Limite à deux objets
+      .sort({ _id: -1 }) 
+      .limit(2); 
 
     res.status(200).json(objets);
   } catch (error) {
@@ -244,7 +237,7 @@ async function afficherDerniersObjets(req, res) {
 async function rechercherObjetParNom(req, res) {
   const { nom } = req.query;
   try {
-    const regex = new RegExp(nom, "i"); // Expression régulière pour la recherche insensible à la casse
+    const regex = new RegExp(nom, "i");
     const objets = await Objet.find({ nom_objet: regex }).populate("cat_id");
     res.status(200).json(objets);
   } catch (error) {

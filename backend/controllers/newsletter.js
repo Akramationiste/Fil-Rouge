@@ -1,6 +1,11 @@
 const Newsletter = require('../models/newsletter');
 const { sendEmail } = require('../utils/sendMail');
 
+
+
+
+///////// fonction pour la newsletter ///////////////
+
 const ajouterEmail = async (req, res) => {
   const { email } = req.body;
 

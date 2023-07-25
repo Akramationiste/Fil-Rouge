@@ -49,7 +49,9 @@ const UtilisateurSchema = new mongoose.Schema({
 
 
    UtilisateurSchema.statics.signup = async function(nom, age, mobile, adresse, email, password, role) {
-    // Validation
+
+
+    // Validation de l'inscription
     if (!nom || !age || !mobile || !adresse || !email || !password) {
         throw Error('Tous les champs sont requis !');
     }

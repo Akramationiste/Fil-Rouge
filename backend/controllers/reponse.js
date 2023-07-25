@@ -2,7 +2,7 @@ const Commentaire = require('../models/commentaire');
 const Reponse = require('../models/reponse');
 
 
-
+/////////////// ajouter une reponse ////////////////
 
 async function ajouterReponse(req, res) {
   const { user_id, objet_id, comment_id, reponse } = req.body;
@@ -50,7 +50,7 @@ async function ajouterReponse(req, res) {
 
 
 
-
+/////////////// afficher une reponse ////////////////////
 
 async function afficherReponse(req, res){
     let reponse
@@ -66,6 +66,9 @@ async function afficherReponse(req, res){
 };
 
 
+
+
+////////////// supprimer une répponse /////////////////////
 
 async function supprimerReponse(req, res){
     let reponseSupprimee 
@@ -83,6 +86,9 @@ async function supprimerReponse(req, res){
 
 
 
+
+////////////// modifier une répponse /////////////////////
+
 async function modifierReponse(req, res) {
     try {
       const reponseModifiee = await Reponse.findByIdAndUpdate(req.params.id, req.body);
@@ -93,6 +99,8 @@ async function modifierReponse(req, res) {
   };
 
 
+
+  
 module.exports = {
     afficherReponse,
     ajouterReponse,

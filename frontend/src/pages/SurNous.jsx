@@ -7,7 +7,7 @@ function SurNous() {
   return (
     <div>
       <SurNouss />
-      <Stats />
+      {/* <Stats /> */}
     </div>
   );
 }

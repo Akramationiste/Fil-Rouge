@@ -48,6 +48,7 @@ function RecupMdp() {
             onSubmit={handleSubmit}
             className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8"
           >
+            
             <p className="text-center text-lg font-medium">
               Récupération du mot de passe
             </p>
@@ -86,13 +87,13 @@ function RecupMdp() {
                 </span>
               </div>
             </div>
-
+<Link to="/NotFound">
             <button
               type="submit"
               className="block w-full rounded-3xl bg-principal hover:bg-secondc px-5 py-3 text-sm font-medium text-white"
             >
               Envoyer le mot de passe
-            </button>
+            </button></Link>
 
             <p className="text-center text-sm text-gray-500">
               Vous vous souvenez de votre mdp ?
